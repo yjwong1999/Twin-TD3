@@ -3,8 +3,8 @@ import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 from env import MiniSystem
-from ddpy import Agent
-import ddpy_2
+from td3 import Agent
+import td3_2
 import numpy as np
 import math
 import time

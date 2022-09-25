@@ -8,19 +8,25 @@ class LoadAndPlot(object):
     """
     load date and plot 2022-07-22 16_16_26
     """
-    def __init__(self, store_path = '/home/tham/Desktop/uav-td3/data/storage/2022-09-08 19_57_43/', user_num = 2, attacker_num = 1, RIS_ant_num = 16):
+    def __init__(self, store_path = '/home/tham/Desktop/uav-td3/data/storage/2022-09-08 19_57_43/', \
+                       user_num = 2, attacker_num = 1, RIS_ant_num = 4, \
+                       ep_num = 100, step_num = 100): # RIS_ant_num = 16 (not true)
+
         self.color_list = ['b', 'c', 'g', 'k', 'm', 'r', 'y']
         self.store_path = store_path
         self.user_num = user_num
         self.attacker_num = attacker_num
         self.RIS_ant_num = RIS_ant_num
+        self.ep_num = ep_num
+        self.step_num = step_num
+
         self.all_steps = self.load_all_steps()
 
     def load_one_ep(self, file_name):
         m = loadmat(self.store_path + file_name)
         return m
 
-    def load_all_steps(self, ep_num = 35, step_num = 100):
+    def load_all_steps(self):
         result_dic = {}
         result_dic.update({'reward':[]})
 
@@ -40,7 +46,7 @@ class LoadAndPlot(object):
         for i in range(self.RIS_ant_num):
             result_dic['RIS_elements'].append([])
 
-        for ep_cnt in range(ep_num):
+        for ep_cnt in range(self.ep_num):
             mat_ep = self.load_one_ep("simulation_result_ep_" + str(ep_cnt) + ".mat")
 
             one_ep_reward = mat_ep["result_" + str(ep_cnt)]["reward"][0][0]
@@ -89,6 +95,20 @@ class LoadAndPlot(object):
         plt.xlabel("Time Steps ($t$)")
         plt.ylabel("Secure Capacity")
         plt.savefig(self.store_path + 'plot/secure_capacity.png')
+        plt.cla()
+
+        fig = plt.figure('average_sum_secrecy_rate')
+        sum_secrecy_rate = np.array(self.all_steps['secure_capacity'])
+        sum_secrecy_rate = np.sum(sum_secrecy_rate, axis = 0)
+        average_sum_secrecy_rate = []
+        for i in range(0, self.ep_num * self.step_num, self.step_num):
+            ssr_one_episode = sum_secrecy_rate[i:i+self.step_num] # ssr means Sum Secrecy Rate
+            _ = sum(ssr_one_episode) / len(ssr_one_episode) 
+            average_sum_secrecy_rate.append(_)
+        plt.plot(range(len(average_sum_secrecy_rate)), average_sum_secrecy_rate)
+        plt.xlabel("Episodes ($Ep$)")
+        plt.ylabel("Average Sum Secrecy Rate")
+        plt.savefig(self.store_path + 'plot/average_sum_secrecy_rate.png')
         plt.cla()
 
         fig = plt.figure('user_capacity')
@@ -142,8 +162,8 @@ if __name__ == '__main__':
     LoadPlotObject = LoadAndPlot(
        # store_path = "./paper/my/plot/compare/2020-12-06 15_35_34_with_RIS_16/",
        # store_path = 'D:\Drive 3\Tham post detail UAV VS RIS\Learning-Based Robust and Secure Transmission for Reconfigurable Intelligent Surface Aided Millimeter Wave UAV Communications\WCL-pulish-code-master\data\storage\2022-06-17 11_31_30\plot\RIS',
-        user_num=2,
-        RIS_ant_num = 4
+        # user_num=2,
+        # RIS_ant_num = 4
         )
     LoadPlotObject.plot()
     LoadPlotObject.restruct()
