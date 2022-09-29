@@ -4,16 +4,32 @@ import cmath
 from scipy.io import loadmat, savemat
 import os
 # load mat
+
+import argparse
+
+# get argument from user
+parser = argparse.ArgumentParser()
+parser.add_argument('--path', type = str, required = False, default=None, help='the path where the training/simulation data is stored')
+parser.add_argument('--ep_num', type = int, required = False, default=100, help='total number of episodes')
+
+# extract argument
+args = parser.parse_args()
+STORE_PATH = args.path
+EP_NUM = args.ep_num
+if STORE_PATH is None:
+    STORE_PATH = 'data/storage/2022-09-13 11_39_46' # best TD3 so far
+    STORE_PATH = 'data/storage/2021-01-08 16_52_32_robust_2' # DDPG Benchmark from https://ieeexplore.ieee.org/document/9434412
+
 class LoadAndPlot(object):
     """
     load date and plot 2022-07-22 16_16_26
     """
-    def __init__(self, store_path = '/home/tham/Desktop/uav-td3/data/storage/2022-09-08 19_57_43/', \
+    def __init__(self, store_path, \
                        user_num = 2, attacker_num = 1, RIS_ant_num = 4, \
-                       ep_num = 100, step_num = 100): # RIS_ant_num = 16 (not true)
+                       ep_num = EP_NUM, step_num = 100): # RIS_ant_num = 16 (not true)
 
         self.color_list = ['b', 'c', 'g', 'k', 'm', 'r', 'y']
-        self.store_path = store_path
+        self.store_path = store_path + '//'
         self.user_num = user_num
         self.attacker_num = attacker_num
         self.RIS_ant_num = RIS_ant_num
@@ -106,7 +122,7 @@ class LoadAndPlot(object):
             _ = sum(ssr_one_episode) / len(ssr_one_episode) 
             average_sum_secrecy_rate.append(_)
         plt.plot(range(len(average_sum_secrecy_rate)), average_sum_secrecy_rate)
-        plt.xlabel("Episodes ($Ep$)")
+        plt.xlabel("Episodes (Ep)")
         plt.ylabel("Average Sum Secrecy Rate")
         plt.savefig(self.store_path + 'plot/average_sum_secrecy_rate.png')
         plt.cla()
@@ -160,8 +176,7 @@ class LoadAndPlot(object):
         return 0
 if __name__ == '__main__':
     LoadPlotObject = LoadAndPlot(
-       # store_path = "./paper/my/plot/compare/2020-12-06 15_35_34_with_RIS_16/",
-       # store_path = 'D:\Drive 3\Tham post detail UAV VS RIS\Learning-Based Robust and Secure Transmission for Reconfigurable Intelligent Surface Aided Millimeter Wave UAV Communications\WCL-pulish-code-master\data\storage\2022-06-17 11_31_30\plot\RIS',
+        store_path = STORE_PATH,
         # user_num=2,
         # RIS_ant_num = 4
         )

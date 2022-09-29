@@ -2,9 +2,23 @@
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
+import argparse
+
+# get argument from user
+parser = argparse.ArgumentParser()
+parser.add_argument('--drl', type = str, required = True, default='td3', help='which drl algo would you like to choose')
+args = parser.parse_args()
+DRL_ALGO = args.drl
+
+if DRL_ALGO == 'td3':
+    from td3 import Agent
+    import td3_2 # seems not used
+elif DRL_ALGO == 'ddpg':
+    from ddpg import Agent
+    import ddpg_2 # seems not used
+import ddpg
+
 from env import MiniSystem
-from td3 import Agent
-import td3_2
 import numpy as np
 import math
 import time
@@ -26,7 +40,7 @@ if_BS = False
 if_robust = True
 # 2 init RL Agent
 
-episode_num = 100
+episode_num = 300
 episode_cnt = 0
 step_num = 100
 
@@ -38,7 +52,7 @@ agent_1_param_dic["tau"] = 0.001
 agent_1_param_dic["batch_size"] = 64
 agent_1_param_dic["n_actions"] = system.get_system_action_dim() - 2
 agent_1_param_dic["action_noise_factor"] = 0.1
-agent_1_param_dic["memory_max_size"] = int(5/5 * episode_num * step_num / 2)
+agent_1_param_dic["memory_max_size"] = int(5/5 * episode_num * step_num) #/2
 agent_1_param_dic["agent_name"] = "G_and_Phi"
 agent_1_param_dic["layer1_size"] = 800
 agent_1_param_dic["layer2_size"] = 600
@@ -53,7 +67,7 @@ agent_2_param_dic["tau"] = 0.001
 agent_2_param_dic["batch_size"] = 64
 agent_2_param_dic["n_actions"] = 2
 agent_2_param_dic["action_noise_factor"] = 0.5
-agent_2_param_dic["memory_max_size"] = int(5/5 * episode_num * step_num / 2)
+agent_2_param_dic["memory_max_size"] = int(5/5 * episode_num * step_num) #/2
 agent_2_param_dic["agent_name"] = "UAV"
 agent_2_param_dic["layer1_size"] = 400
 agent_2_param_dic["layer2_size"] = 300
@@ -93,21 +107,21 @@ agent_2 = Agent(
     ) 
 
 
+'''
+agent_2.load_models(
+     load_file_actor = '/home/tham/Desktop/uav-td3/data/storage/2022-09-13 11_39_46/best/Actor_G_and_Phi_td3',
+     load_file_critic_1 ='/home/tham/Desktop/uav-td3/data/storage/2022-09-13 11_39_46/best/Critic_1_G_and_Phi_td3',
+     load_file_critic_2 ='/home/tham/Desktop/uav-td3/data/storage/2022-09-13 11_39_46/best/Critic_2_G_and_Phi_td3'
+     )
+'''
 
-'''agent_1.load_models(
-    load_file_actor = '/home/tham/Desktop/WCL-pulish-code-master/2021-01-08 16_52_32_robust_2/Actor_G_and_Phi_ddpg/',
-    load_file_critic ='/home/tham/Desktop/WCL-pulish-code-master/data/storage/2022-06-16 15_14_21/Critic_G_and_Phi_ddpg'
-    )'''
-
-'''agent_2.load_models(
-    load_file_actor = '/home/tham/Desktop/WCL-pulish-code-master/2021-01-08 16_52_32_robust_2/Actor_UAV_ddpg',
-    load_file_critic ='/home/tham/Desktop/WCL-pulish-code-master/2021-01-08 16_52_32_robust_2/Critic_UAV_ddpg'
-    )'''
-
-# agent_2.load_models(
-#     load_file_actor = '/home/tham/Desktop/WCL-pulish-code-master/data/storage/2022-06-17 11_31_30/Actor_UAV_ddpg',
-#     load_file_critic ='/home/tham/Desktop/WCL-pulish-code-master/data/storage/2022-06-17 11_31_30/Critic_UAV_ddpg'
-#     )
+'''
+# with benchmark data
+agent_2.load_models(
+     load_file_actor = '/home/tham/Desktop/uav-td3/data/storage/2021-01-08 16_52_32_robust_2/Actor_UAV_ddpg',
+     load_file_critic ='/home/tham/Desktop/uav-td3/data/storage/2021-01-08 16_52_32_robust_2/Critic_UAV_ddpg'
+     )
+'''
 
 meta_dic = {}
 print("***********************system information******************************")
@@ -152,11 +166,14 @@ meta_dic["agent_2"] = agent_2_param_dic
 system.data_manager.save_meta_data(meta_dic)
 
 print("***********************traning information******************************")
+
+best = -99999
 while episode_cnt < episode_num:
     # 1 reset the whole system
     system.reset()
     step_cnt = 0
     score_per_ep = 0
+
     # 2 get the initial state
     if if_robust:
         tmp = system.observe()
@@ -224,23 +241,25 @@ while episode_cnt < episode_num:
             agent_2.remember(observersion_2, action_2, reward, new_state_2, int(done))
             # 5 update DDPG net
             agent_1.learn()
-            #agent_2.learn()
+            agent_2.learn() #agent_2.learn()
 
-            system.render_obj.render(0.001)
+            #system.render_obj.render(0.001) # no rendering for faster
             observersion_1 = new_state_1
             observersion_2 = new_state_2
             if done == True:
                 break
             
         else:
-            system.render_obj.render_pause() 
-            time.sleep(1)
+            #system.render_obj.render_pause()  # no rendering for faster
+            time.sleep(0.001) #time.sleep(1)
     system.data_manager.save_file(episode_cnt=episode_cnt)
     system.reset()
     print("ep_num: "+str(episode_cnt)+"   ep_score:  "+str(score_per_ep))
     episode_cnt +=1
     if episode_cnt % 10 == 0:
-        agent_1.save_models()
-        agent_2.save_models()
-#    secrcy_rate=calculate_secure_capacity_of_user_k(k=2)
-#    print("secercy_rate: ",secrcy_rate )
+        agent_1.save_models(best=False)
+        agent_2.save_models(best=False)
+    if best < score_per_ep:
+        agent_1.save_models(best=True)
+        agent_2.save_models(best=True)
+        best = score_per_ep

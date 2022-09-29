@@ -1,4 +1,4 @@
-from ddpy import Agent
+from ddpg import Agent
 from env1 import minimal_IRS_system # orginal
 from env import MiniSystem
 import numpy as np

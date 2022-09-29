@@ -357,11 +357,6 @@ class MiniSystem(object):
         R_k_unsecure = user.capacity
         R_k_maxeavesdrop = max(self.eavesdrop_capacity_array[:, k])
         secrecy_rate= max(0, R_k_unsecure - R_k_maxeavesdrop)
-        print("secure rate:", secrecy_rate)
-        time = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        np.save('Secrecy_rate/data_' + time + '.npy', secrecy_rate)
-#        print("The shape of secrecy rate: ", secrecy_rate.shape)
-#        np.savetxt('test.csv', (secrecy_rate))
         return secrecy_rate
 
     def get_system_action_dim(self):

@@ -73,7 +73,7 @@ class ReplayBuffer(object):
 
 class CriticNetwork(nn.Module):
     def __init__(self, beta, input_dims, fc1_dims, fc2_dims, fc3_dims, fc4_dims, n_actions, name,
-                 chkpt_dir='C:\\demo\\IRS_TD3_minimal\\main_foder\\tmp\\TD3', load_file = ''):
+                 chkpt_dir='C:\\demo\\IRS_DDPG_minimal\\main_foder\\tmp\\ddpg', load_file = ''):
         super(CriticNetwork, self).__init__()
         self.input_dims = input_dims
         self.fc1_dims = fc1_dims
@@ -81,9 +81,9 @@ class CriticNetwork(nn.Module):
         self.fc3_dims = fc3_dims
         self.fc4_dims = fc4_dims
         self.n_actions = n_actions
-        self.checkpoint_file = os.path.join(chkpt_dir,name+'_TD3')
-        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_TD3')
-        self.load_file = 'C:\\demo\\other_branch\\Learning-based_Secure_Transmission_for_RIS_Aided_mmWave-UAV_Communications_with_Imperfect_CSI\\data\\mannal_store\\models\\Critic_UAV_TD3'
+        self.checkpoint_file = os.path.join(chkpt_dir,name+'_ddpg')
+        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_ddpg')
+        self.load_file = 'C:\\demo\\other_branch\\Learning-based_Secure_Transmission_for_RIS_Aided_mmWave-UAV_Communications_with_Imperfect_CSI\\data\\mannal_store\\models\\Critic_UAV_ddpg'
         self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)
         f1 = 1./np.sqrt(self.fc1.weight.data.size()[0])
         T.nn.init.uniform_(self.fc1.weight.data, -f1, f1)
@@ -167,7 +167,7 @@ class CriticNetwork(nn.Module):
 
 class ActorNetwork(nn.Module):
     def __init__(self, alpha, input_dims, fc1_dims, fc2_dims, fc3_dims, fc4_dims, n_actions, name,
-                 chkpt_dir='C:\\demo\\IRS_TD3_minimal\\main_foder\\tmp\\TD3', load_file = ''):
+                 chkpt_dir='C:\\demo\\IRS_DDPG_minimal\\main_foder\\tmp\\ddpg', load_file = ''):
         super(ActorNetwork, self).__init__()
         self.input_dims = input_dims
         self.fc1_dims = fc1_dims
@@ -175,9 +175,9 @@ class ActorNetwork(nn.Module):
         self.fc3_dims = fc3_dims
         self.fc4_dims = fc4_dims        
         self.n_actions = n_actions
-        self.checkpoint_file = os.path.join(chkpt_dir,name+'_TD3')
-        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_TD3')
-        self.load_file = 'C:\\demo\\other_branch\\Learning-based_Secure_Transmission_for_RIS_Aided_mmWave-UAV_Communications_with_Imperfect_CSI\\data\\mannal_store\\models\\Actor_UAV_TD3'
+        self.checkpoint_file = os.path.join(chkpt_dir,name+'_ddpg')
+        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_ddpg')
+        self.load_file = 'C:\\demo\\other_branch\\Learning-based_Secure_Transmission_for_RIS_Aided_mmWave-UAV_Communications_with_Imperfect_CSI\\data\\mannal_store\\models\\Actor_UAV_ddpg'
         self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)
         f1 = 1./np.sqrt(self.fc1.weight.data.size()[0])
 #        T.nn.init.uniform_(self.fc1.weight.data, -f1, f1)
@@ -256,8 +256,7 @@ class ActorNetwork(nn.Module):
 class Agent(object):
     def __init__(self, alpha, beta, input_dims, tau, env, gamma=0.99,
                  n_actions=2, max_size=1000000, layer1_size=400,
-                 layer2_size=300, layer3_size=256, layer4_size=128, batch_size=64, 
-                 update_actor_interval=2, noise = 'AWGN', agent_name = 'default', load_file = ''):
+                 layer2_size=300, layer3_size=256, layer4_size=128, batch_size=64, noise = 'AWGN', agent_name = 'default', load_file = ''):
         self.load_file = load_file
         self.layer1_size = layer1_size
         self.layer2_size = layer2_size
@@ -267,28 +266,20 @@ class Agent(object):
         self.tau = tau
         self.memory = ReplayBuffer(max_size, input_dims, n_actions)
         self.batch_size = batch_size
-        self.learn_step_cntr = 0
-        self.update_actor_iter = update_actor_interval
 
         self.actor = ActorNetwork(alpha, input_dims, layer1_size,
                                   layer2_size, layer3_size, layer4_size, n_actions=n_actions,
                                   name='Actor_' + agent_name,chkpt_dir=env.data_manager.store_path )
-        self.critic_1 = CriticNetwork(beta, input_dims, layer1_size,
+        self.critic = CriticNetwork(beta, input_dims, layer1_size,
                                     layer2_size, layer3_size, layer4_size, n_actions=n_actions,
-                                    name='Critic_1_' + agent_name,chkpt_dir=env.data_manager.store_path)
-        self.critic_2 = CriticNetwork(beta, input_dims, layer1_size,
-                                    layer2_size, layer3_size, layer4_size, n_actions=n_actions,
-                                    name='Critic_2_' + agent_name,chkpt_dir=env.data_manager.store_path)
+                                    name='Critic_' + agent_name,chkpt_dir=env.data_manager.store_path)
 
         self.target_actor = ActorNetwork(alpha, input_dims, layer1_size,
                                          layer2_size, layer3_size, layer4_size, n_actions=n_actions,
                                          name='TargetActor_' + agent_name,chkpt_dir=env.data_manager.store_path)
-        self.target_critic_1 = CriticNetwork(beta, input_dims, layer1_size,
+        self.target_critic = CriticNetwork(beta, input_dims, layer1_size,
                                            layer2_size, layer3_size, layer4_size, n_actions=n_actions,
-                                           name='TargetCritic_1_' + agent_name,chkpt_dir=env.data_manager.store_path)
-        self.target_critic_2 = CriticNetwork(beta, input_dims, layer1_size,
-                                           layer2_size, layer3_size, layer4_size, n_actions=n_actions,
-                                           name='TargetCritic_2_' + agent_name,chkpt_dir=env.data_manager.store_path)
+                                           name='TargetCritic_' + agent_name,chkpt_dir=env.data_manager.store_path)
         if noise == 'OU':
             self.noise = OUActionNoise(mu=np.zeros(n_actions))
         elif noise == 'AWGN':
@@ -317,124 +308,114 @@ class Agent(object):
                                       self.memory.sample_buffer(self.batch_size)
 
         # trun s, a, r, new_s into tensor
-        reward = T.tensor(reward, dtype=T.float).to(self.critic_1.device)
-        done = T.tensor(done).to(self.critic_1.device)
-        new_state = T.tensor(new_state, dtype=T.float).to(self.critic_1.device)
-        action = T.tensor(action, dtype=T.float).to(self.critic_1.device)
-        state = T.tensor(state, dtype=T.float).to(self.critic_1.device)
+        reward = T.tensor(reward, dtype=T.float).to(self.critic.device)
+        done = T.tensor(done).to(self.critic.device)
+        new_state = T.tensor(new_state, dtype=T.float).to(self.critic.device)
+        action = T.tensor(action, dtype=T.float).to(self.critic.device)
+        state = T.tensor(state, dtype=T.float).to(self.critic.device)
 
         # trun on evaliation mode of target actor, target critic, critic net
         # fix these three nets
         self.target_actor.eval()
-        self.target_critic_1.eval()
-        self.target_critic_2.eval()
-        self.critic_1.eval()
-        self.critic_2.eval()
+        self.target_critic.eval()
+        self.critic.eval()
 
-        
+        # argmax_action*(Q(new_state,action*)),i.e. pi(s|pi),i.e. stratage choose the action* maxmium the future Q 
         target_actions = self.target_actor.forward(new_state)
-        # target_actions = target_actions + \
-        #         T.clamp(T.tensor(np.random.normal(scale=0.2)), -0.5, 0.5)
-        # # might break if elements of min and max are not all equal
-        # target_actions = T.clamp(target_actions, self.min_action[0], self.max_action[0])
-        
-        critic_value_1_ = self.target_critic_1.forward(new_state, target_actions)
-        critic_value_2_ = self.target_critic_2.forward(new_state, target_actions)
-        
-        critic_value_1 = self.critic_1.forward(state, action)
-        critic_value_2 = self.critic_2.forward(state, action)
-        
-        critic_value_ = T.min(critic_value_1_, critic_value_2_)
-        
+        # caculate the Q(new_state, new_action)
+        critic_value_ = self.target_critic.forward(new_state, target_actions)
+        # caculate the Q(state, action)
+        critic_value = self.critic.forward(state, action)
+
         target = []
         for j in range(self.batch_size):
             target.append(reward[j] + self.gamma*critic_value_[j]*done[j])
-        target = T.tensor(target).to(self.critic_1.device)
+        target = T.tensor(target).to(self.critic.device)
         target = target.view(self.batch_size, 1)
-        
+
         # here update the critic net using mse of (r + gamma * Q_argmax_a*(newstate, a*)) - Q(state, action)
-        self.critic_1.train()
-        self.critic_2.train()
-        
-        self.critic_1.optimizer.zero_grad()
-        self.critic_2.optimizer.zero_grad()
-        
-        critic_1_loss = F.mse_loss(target, critic_value_1)
-        critic_2_loss = F.mse_loss(target, critic_value_2)
-        critic_loss = critic_1_loss + critic_2_loss
+        self.critic.train()
+        self.critic.optimizer.zero_grad()
+        critic_loss = F.mse_loss(target, critic_value)
         critic_loss.backward()
-        
-        self.critic_1.optimizer.step()
-        self.critic_2.optimizer.step()
-        
-        self.learn_step_cntr += 1
-        
-        if self.learn_step_cntr % self.update_actor_iter != 0:
-            return
+        self.critic.optimizer.step()
 
         # here update the actor net by policy gradient
         # first fix the critic net
-        self.critic_1.eval()
-        self.critic_2.eval()
-        
+        self.critic.eval()
         self.actor.optimizer.zero_grad()
         mu = self.actor.forward(state)
         self.actor.train()
-        actor_q1_loss = self.critic_1.forward(state, mu)
-        actor_loss = -T.mean(actor_q1_loss)
+        actor_loss = -self.critic.forward(state, mu)
+        actor_loss = T.mean(actor_loss)
         actor_loss.backward()
         self.actor.optimizer.step()
 
         self.update_network_parameters()
-        
 
     def update_network_parameters(self, tau=None):
         if tau is None:
             tau = self.tau
 
         actor_params = self.actor.named_parameters()
-        critic_1_params = self.critic_1.named_parameters()
-        critic_2_params = self.critic_2.named_parameters()
+        critic_params = self.critic.named_parameters()
         target_actor_params = self.target_actor.named_parameters()
-        target_critic_1_params = self.target_critic_1.named_parameters()
-        target_critic_2_params = self.target_critic_2.named_parameters()
+        target_critic_params = self.target_critic.named_parameters()
 
-        critic_1_state_dict = dict(critic_1_params)
-        critic_2_state_dict = dict(critic_2_params)
+        critic_state_dict = dict(critic_params)
         actor_state_dict = dict(actor_params)
-        target_actor_state_dict = dict(target_actor_params)
-        target_critic_1_state_dict = dict(target_critic_1_params)
-        target_critic_2_state_dict = dict(target_critic_2_params)
+        target_critic_dict = dict(target_critic_params)
+        target_actor_dict = dict(target_actor_params)
 
-        for name in critic_1_state_dict:
-            critic_1_state_dict[name] = tau*critic_1_state_dict[name].clone() + \
-                    (1-tau)*target_critic_1_state_dict[name].clone()
+        for name in critic_state_dict:
+            critic_state_dict[name] = tau*critic_state_dict[name].clone() + \
+                                      (1-tau)*target_critic_dict[name].clone()
 
-        for name in critic_2_state_dict:
-            critic_2_state_dict[name] = tau*critic_2_state_dict[name].clone() + \
-                    (1-tau)*target_critic_2_state_dict[name].clone()
+        self.target_critic.load_state_dict(critic_state_dict)
 
         for name in actor_state_dict:
             actor_state_dict[name] = tau*actor_state_dict[name].clone() + \
-                    (1-tau)*target_actor_state_dict[name].clone()
-                    
-        self.target_critic_1.load_state_dict(critic_1_state_dict)
-        self.target_critic_2.load_state_dict(critic_2_state_dict)
+                                      (1-tau)*target_actor_dict[name].clone()
         self.target_actor.load_state_dict(actor_state_dict)
 
-
-    def save_models(self, best=True):
+        """
+        #Verify that the copy assignment worked correctly
+        target_actor_params = self.target_actor.named_parameters()
+        target_critic_params = self.target_critic.named_parameters()
+        critic_state_dict = dict(target_critic_params)
+        actor_state_dict = dict(target_actor_params)
+        print('\nActor Networks', tau)
+        for name, param in self.actor.named_parameters():
+            print(name, T.equal(param, actor_state_dict[name]))
+        print('\nCritic Networks', tau)
+        for name, param in self.critic.named_parameters():
+            print(name, T.equal(param, critic_state_dict[name]))
+        input()
+        """
+    def save_models(self, best):
         self.actor.save_checkpoint(best=best)
         self.target_actor.save_checkpoint(best=best)
-        self.critic_1.save_checkpoint(best=best)
-        self.critic_2.save_checkpoint(best=best)
-        self.target_critic_1.save_checkpoint(best=best)
-        self.target_critic_2.save_checkpoint(best=best)
+        self.critic.save_checkpoint(best=best)
+        self.target_critic.save_checkpoint(best=best)
 
-    def load_models(self, load_file_actor = '',load_file_critic_1 ='',load_file_critic_2 =''):
+    def load_models(self, load_file_actor = '',load_file_critic =''):
         self.actor.load_checkpoint(load_file = load_file_actor)
         self.target_actor.load_checkpoint(load_file = load_file_actor)
-        self.critic_1.load_checkpoint(load_file = load_file_critic_1)
-        self.critic_2.load_checkpoint(load_file = load_file_critic_2)
-        self.target_critic_1.load_checkpoint(load_file = load_file_critic_1)
-        self.target_critic_2.load_checkpoint(load_file = load_file_critic_2)
+        self.critic.load_checkpoint(load_file = load_file_critic)
+        self.target_critic.load_checkpoint(load_file = load_file_critic)
+
+    def check_actor_params(self):
+        current_actor_params = self.actor.named_parameters()
+        current_actor_dict = dict(current_actor_params)
+        original_actor_dict = dict(self.original_actor.named_parameters())
+        original_critic_dict = dict(self.original_critic.named_parameters())
+        current_critic_params = self.critic.named_parameters()
+        current_critic_dict = dict(current_critic_params)
+        print('Checking Actor parameters')
+
+        for param in current_actor_dict:
+            print(param, T.equal(original_actor_dict[param], current_actor_dict[param]))
+        print('Checking critic parameters')
+        for param in current_critic_dict:
+            print(param, T.equal(original_critic_dict[param], current_critic_dict[param]))
+        input()
