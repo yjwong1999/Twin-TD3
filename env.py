@@ -366,13 +366,13 @@ class MiniSystem(object):
         result = 0
         # 0 UAV movement
         result += 2
-        # 1 beamforming matrix dimention
+        # 1 RIS reflecting elements
         if self.if_with_RIS:
-            result += 2 * self.UAV.ant_num * self.user_num    
+            result += self.RIS.ant_num   
         else:
             result += 0
-        # 2 RIS reflecting elements
-        result += self.RIS.ant_num
+        # 2 beamforming matrix dimention
+        result += 2 * self.UAV.ant_num * self.user_num 
         return result
 
     def get_system_state_dim(self):
