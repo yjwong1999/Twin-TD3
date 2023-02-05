@@ -1,5 +1,6 @@
 # Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces
 
+**IEEE Wireless Communications and Networking Conference 2023 (WCNC 2023)** </br>
 Simulation for Conference Proceedings "doi-to-be-filled"
 
 Note that the `main_test.py` is the main running python file. To run it, please type 
