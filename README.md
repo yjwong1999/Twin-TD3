@@ -28,6 +28,10 @@ The simulation of the System Model is provided by the following research work: <
 [Learning-Based Robust and Secure Transmission for Reconfigurable Intelligent Surface Aided Millimeter Wave UAV Communications]() </br>
 The code is provided in this [GitHub repo](https://github.com/Brook1711/WCL-pulish-code).
 
+### Rotary-Wing UAV
+We can derive the Rotary-Wing UAV’s propulsion energy consumption based on the following research work: </br>
+[Energy Minimization in Internet-of-Things System Based on Rotary-Wing UAV](https://doi.org/10.1109/LWC.2019.2916549)
+
 ### TD3
 Main reference for TD3 implementation: </br>
 [PyTorch/TensorFlow 2.0 for TD3](https://github.com/philtabor/Actor-Critic-Methods-Paper-To-Code/tree/master/TD3)
