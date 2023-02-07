@@ -58,6 +58,24 @@ python3 plot_see.py
 python3 plot_traj.py
 ```
 
+## Results
+
+SSR and SEE              (the higher the better)
+Total Energy Consumption (the lower the better)
+
+| Algorithms                     | SSR (bits/s/Hz)| Energy (kJ) | SEE (bits/s/Hz/kJ)|
+|--------------------------------|----------------|-------------|-------------------|
+| TDDRL                          | 5.03           | 12.4        | 40.8              |
+| TTD3                           | 6.05           | 12.7        | 48.2              |
+| TDDRL (with energy constraint) | 4.68           | 11.2        | 39.4              |
+| TTD3  (with energy constraint) | 5.39           | 11.2        | 48.4              |
+
+Summary
+1. In terms of SSR, TTD3 outperforms TDDRL with or without energy constraint
+2. In terms of SEE and Energy, TTD3 (with energy constraint) outperforms all other algorithms
+3. Generally, TTD3 algorithm are better than TTDRL
+4. Even with energy contraint (trade-off between energy consumption and SSR), TTD3 outperforms TDDRL in all aspects
+
 
 ## References and Acknowledgement
 
