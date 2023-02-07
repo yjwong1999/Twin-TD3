@@ -5,8 +5,8 @@ Simulation for Conference Proceedings "doi-to-be-filled"
 
 Note that the `main_test.py` is the main running python file. To run it, please type 
 ```shell
-python main_test.py
-python3 main_test.py
+python3 main_test.py --drl ddpg
+python3 main_test.py --drl td3
 ```
 in the `bash` or `powershell`
 
