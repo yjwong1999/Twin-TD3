@@ -11,6 +11,49 @@ from data_manager import DataManager
 # s.t every simulition is the same model
 np.random.seed(2)
 
+######################################################
+# new for energy 
+# energy related parameters of rotary-wing UAV
+# based on Energy Minimization in Internet-of-Things System Based on Rotary-Wing UAV
+P_i = 790.6715
+P_0 = 580.65
+U2_tip = (200) ** 2
+s = 0.05
+d_0 = 0.3
+p = 1.225
+A = 0.79
+delta_time = 0.1/1000 #0.1ms
+
+# add ons hover veloctiy
+# based on https://www.intechopen.com/chapters/57483
+m = 1.3 # mass: assume 1.3kg https://www.droneblog.com/average-weights-of-common-types-of-drones/#:~:text=In%20most%20cases%2C%20toy%20drones,What%20is%20this%3F
+g = 9.81 # gravity
+T = m * g # thrust
+v_0 = (T / (A * 2 * p)) ** 0.5
+
+def get_energy_consumption(v_t):
+    '''
+    arg
+    1) v_t = displacement per time slot
+    '''
+    energy_1 = P_0 \
+                + 3 * P_0 * (abs(v_t)) ** 2 / U2_tip \
+                + 0.5 * d_0 * p * s * A * (abs(v_t))**3
+    
+    energy_2 = P_i * ((
+                    (1 + (abs(v_t) ** 4) / (4 * (v_0 ** 4))) ** 0.5 \
+                    - (abs(v_t) ** 2) / (2 * (v_0 **2)) \
+                ) ** 0.5)
+    
+    energy = delta_time * (energy_1 + energy_2)
+    return energy 
+
+ENERGY_MIN = get_energy_consumption(0.25)
+ENERGY_MAX = get_energy_consumption(0)
+
+######################################################
+
+
 class MiniSystem(object):
 #class MiniSystem(K=1):
     """
@@ -130,6 +173,13 @@ class MiniSystem(object):
         if self.if_movements:
             move_x = action_0 * self.UAV.max_movement_per_time_slot
             move_y = action_1 * self.UAV.max_movement_per_time_slot
+            
+            ######################################################
+            # new for energy 
+            v_t = (move_x ** 2 + move_y ** 2) ** 0.5
+            #self.data_manager.store_data([v_t],'velocity')
+            ######################################################
+
             if self.reverse_x_y[0]:
                 move_x = -move_x
             
@@ -176,8 +226,20 @@ class MiniSystem(object):
         new_state = self.observe()
         # 7 get reward
         reward = self.reward()
+        
+        # 7.1 reward with energy efficiency
+        ######################################################
+        # new for energy 
+        energy = energy_raw = get_energy_consumption(v_t)
+        energy -= ENERGY_MIN
+        energy /= (ENERGY_MAX - ENERGY_MIN)
+        energy_penalty = -1 * 0.1 * abs(reward) * energy # -1 * 0.1 * reward * energy
+        if reward > 0:
+            reward += energy_penalty
+        ######################################################
+        
         # 8 calculate if UAV is cross the bourder
-        reward = math.tanh(reward)
+        reward = math.tanh(reward) # new for energy (ori not commented)
         done = False
         x, y = self.UAV.coordinate[0:2]
         if x < self.border[0][0] or x > self.border[0][1]:
@@ -208,6 +270,7 @@ class MiniSystem(object):
                     reward += r/(self.user_num*2)
             if reward_ < 0:
                 reward = reward_ * self.user_num * 10
+     
         return reward
     
     def observe(self):

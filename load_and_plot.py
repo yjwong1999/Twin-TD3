@@ -24,6 +24,50 @@ if STORE_PATH is None:
     STORE_PATH = 'data/storage/2021-01-08 16_52_32_robust_2' # DDPG Benchmark from https://ieeexplore.ieee.org/document/9434412
 
 
+
+######################################################
+# new for energy 
+# energy related parameters of rotary-wing UAV
+# based on Energy Minimization in Internet-of-Things System Based on Rotary-Wing UAV
+P_i = 790.6715
+P_0 = 580.65
+U2_tip = (200) ** 2
+s = 0.05
+d_0 = 0.3
+p = 1.225
+A = 0.79
+delta_time = 0.1 #0.1/1000 #0.1ms
+
+# add ons hover veloctiy
+# based on https://www.intechopen.com/chapters/57483
+m = 1.3 # mass: assume 1.3kg https://www.droneblog.com/average-weights-of-common-types-of-drones/#:~:text=In%20most%20cases%2C%20toy%20drones,What%20is%20this%3F
+g = 9.81 # gravity
+T = m * g # thrust
+v_0 = (T / (A * 2 * p)) ** 0.5
+
+def get_energy_consumption(v_t):
+    '''
+    arg
+    1) v_t = displacement per time slot
+    '''
+    energy_1 = P_0 \
+                + 3 * P_0 * (abs(v_t)) ** 2 / U2_tip \
+                + 0.5 * d_0 * p * s * A * (abs(v_t))**3
+    
+    energy_2 = P_i * ((
+                    (1 + (abs(v_t) ** 4) / (4 * (v_0 ** 4))) ** 0.5 \
+                    - (abs(v_t) ** 2) / (2 * (v_0 **2)) \
+                ) ** 0.5)
+    
+    energy = delta_time * (energy_1 + energy_2)
+    return energy 
+
+ENERGY_MIN = get_energy_consumption(0.25)
+ENERGY_MAX = get_energy_consumption(0)
+
+######################################################
+
+
 # modified from data_manager.py
 init_data_file = 'data/init_location.xlsx'
 def read_init_location(entity_type = 'user', index = 0):
@@ -149,8 +193,10 @@ class LoadAndPlot(object):
         sum_secrecy_rate = np.array(self.all_steps['secure_capacity'])
         sum_secrecy_rate = np.sum(sum_secrecy_rate, axis = 0)
         average_sum_secrecy_rate = []
+        ssr = []
         for i in range(0, self.ep_num * self.step_num, self.step_num):
             ssr_one_episode = sum_secrecy_rate[i:i+self.step_num] # ssr means Sum Secrecy Rate
+            ssr.append(ssr_one_episode)
             try:
                 _ = sum(ssr_one_episode) / len(ssr_one_episode)
             except:
@@ -161,6 +207,63 @@ class LoadAndPlot(object):
         plt.ylabel("Average Sum Secrecy Rate")
         plt.savefig(self.store_path + 'plot/average_sum_secrecy_rate.png')
         plt.cla()
+        
+        print(average_sum_secrecy_rate[-1], max(average_sum_secrecy_rate))
+        
+
+        ###############################
+        # plot secrecy energy efficient
+        ###############################
+        fig = plt.figure('average_secrecy_energy_efficiency')
+
+        # get init location
+        init_uav_coord = read_init_location(entity_type = 'UAV')
+        init_user_coord_0 = read_init_location(entity_type = 'user', index=0)
+        init_user_coord_1 = read_init_location(entity_type = 'user', index=1)
+        
+        ep_num = EP_NUM
+        energies = []
+        for i in range(ep_num):
+            # read the mat file
+            filename = f'simulation_result_ep_{i}.mat'
+            filename = os.path.join(STORE_PATH, filename)
+            data = loadmat(filename)
+        
+            # v_ts
+            energies_one_episode = []
+        
+            # loop all uav movt
+            uav_movt = data[f'result_{i}'][0][0][-1]
+            for j in range(uav_movt.shape[0]):
+                move_x = uav_movt[j][0]
+                move_y = uav_movt[j][1]
+                v_t = (move_x ** 2 + move_y ** 2) ** 0.5
+                energy = get_energy_consumption(v_t / delta_time)
+                energies_one_episode.append(energy)
+            energies.append(energies_one_episode)
+                
+        average_see = []
+        for ssr_one_episode, energies_one_episode in zip(ssr, energies):
+            ssr_one_episode = ssr_one_episode[:len(energies_one_episode)]
+            energies_one_episode = energies_one_episode[:len(ssr_one_episode)]
+            #print(len(ssr_one_episode), len(energies_one_episode))
+            
+            try:
+                see = np.array(ssr_one_episode) / np.array(energies_one_episode)
+                average_see.append(sum(see)/len(see))
+            except:
+                average_see.append(0)
+
+        
+        plt.plot(range(len(average_see)), average_see)
+        plt.xlabel("Episodes (Ep)")
+        plt.ylabel("Average Secrecy Energy Efficiency")
+        plt.savefig(self.store_path + 'plot/average_secrecy_energy_efficiency.png')
+        plt.cla() 
+        
+        print(average_see[-1], max(average_see))
+        print(sum(energies[-1]), sum(energies[np.argmax(average_see)]))
+
         
         
         ###############################
