@@ -7,6 +7,18 @@ Simulation for Conference Proceedings "doi-to-be-filled"
 ## Abstract
 This paper investigates the **physical layer security (PLS)** issue in **reconfigurable intelligent surface (RIS) aided millimeter-wave rotary-wing unmanned aerial vehicle (UAV) communications** under the presence of multiple eavesdroppers and imperfect channel state information (CSI). The goal is to maximize the **worst-case secrecy energy efficiency (SEE)** of UAV via a **joint optimization of flight trajectory, UAV active beamforming and RIS passive beamforming**. By interacting with the dynamically changing UAV environment, real-time decision making per time slot is possible via deep reinforcement learning (DRL). To decouple the continuous optimization variables, we introduce a **twin twin-delayed deep deterministic policy gradient (TTD3)** to maximize the expected cumulative reward, which is linked to SEE enhancement. Simulation results confirm that the proposed method achieves greater secrecy energy savings than the traditional twin-deep deterministic policy gradient DRL (TDDRL)-based method. 
 
+## TLDR
+
+### System model: 
+**RIS-aided mmWave UAV system** under the presence of **eavesdroppers** and **imperfect channel state information (CSI)** </br>
+
+### Solution: 
+A **Twin-TD3 (TTD3) algorithm** to decouple the joint optimization of:
+1. UAV active beamforming and RIS passive beamforming 
+2. UAV flight trajectory
+
+We adopt **double DRL framework**, where the 1st and 2nd agent provides the policy for task (1) and (2), respectively.
+
 ## How to use this repo
 User can train two types of algorithm for training:
 1. Twin DDPG is [TDDRL algorithm](https://doi.org/10.1109/LWC.2021.3081464)
