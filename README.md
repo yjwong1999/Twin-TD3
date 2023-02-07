@@ -24,7 +24,9 @@ User can train two types of algorithm for training:
 1. Twin DDPG is [TDDRL algorithm](https://doi.org/10.1109/LWC.2021.3081464)
 2. Twin TD3 is our proposed TTD3 algorithm
 
-Note that the `main_test.py` is the main running python file. To run it, please type 
+Run the following  in the `bash` or `powershell`
+
+`main_test.py` is the main python file to train the DRL algorithms
 ```shell
 # To use Twin DDPG
 python3 main_test.py --drl ddpg
@@ -32,7 +34,23 @@ python3 main_test.py --drl ddpg
 python3 main_test.py --drl td3
 ```
 
-in the `bash` or `powershell`
+`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one training
+```shell
+# plot everything for each episode
+python3 load_and_plot.py --path <RELATIVE_PATH> --ep_num 300
+```
+
+`plot_ssr.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
+```shell
+# plot ssr
+python3 plot_ssr.py
+```
+
+`plot_see.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
+```shell
+# plot see
+python3 plot_see.py
+```
 
 
 ## References and Acknowledgement
