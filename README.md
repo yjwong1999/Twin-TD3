@@ -3,11 +3,23 @@
 **IEEE Wireless Communications and Networking Conference 2023 (WCNC 2023)** </br>
 Simulation for Conference Proceedings "doi-to-be-filled"
 
+
+## Abstract
+This paper investigates the **physical layer security (PLS)** issue in **reconfigurable intelligent surface (RIS) aided millimeter-wave rotary-wing unmanned aerial vehicle (UAV) communications** under the presence of multiple eavesdroppers and imperfect channel state information (CSI). The goal is to maximize the **worst-case secrecy energy efficiency (SEE)** of UAV via a **joint optimization of flight trajectory, UAV active beamforming and RIS passive beamforming**. By interacting with the dynamically changing UAV environment, real-time decision making per time slot is possible via deep reinforcement learning (DRL). To decouple the continuous optimization variables, we introduce a **twin twin-delayed deep deterministic policy gradient (TTD3)** to maximize the expected cumulative reward, which is linked to SEE enhancement. Simulation results confirm that the proposed method achieves greater secrecy energy savings than the traditional twin-deep deterministic policy gradient DRL (TDDRL)-based method. 
+
+## How to use this repo
+User can train two types of algorithm for training:
+1. Twin DDPG is [TDDRL algorithm](https://doi.org/10.1109/LWC.2021.3081464)
+2. Twin TD3 is our proposed TTD3 algorithm
+
 Note that the `main_test.py` is the main running python file. To run it, please type 
 ```shell
+# To use Twin DDPG
 python3 main_test.py --drl ddpg
+# To use Twin TD3
 python3 main_test.py --drl td3
 ```
+
 in the `bash` or `powershell`
 
 
@@ -26,7 +38,7 @@ The original simulation code is coded in matlab, this [GitHub repo](https://gith
 
 ### System Model: RIS-aided mmWave UAV communications
 The simulation of the System Model is provided by the following research work: </br>
-[Learning-Based Robust and Secure Transmission for Reconfigurable Intelligent Surface Aided Millimeter Wave UAV Communications]() </br>
+[Learning-Based Robust and Secure Transmission for Reconfigurable Intelligent Surface Aided Millimeter Wave UAV Communications](https://doi.org/10.1109/LWC.2021.3081464) </br>
 The code is provided in this [GitHub repo](https://github.com/Brook1711/WCL-pulish-code).
 
 ### Rotary-Wing UAV
