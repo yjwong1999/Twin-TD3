@@ -104,3 +104,10 @@ We can derive the Rotary-Wing UAV’s propulsion energy consumption based on the
 ### TD3
 Main reference for TD3 implementation: </br>
 [PyTorch/TensorFlow 2.0 for TD3](https://github.com/philtabor/Actor-Critic-Methods-Paper-To-Code/tree/master/TD3)
+
+
+## TODO
+Get TD3 3 and TD3 SEEM 5 UAV model
+Remove saving "best model"
+Add --see True
+Standardize the ms and kJ things
