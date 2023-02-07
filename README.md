@@ -52,6 +52,12 @@ python3 plot_ssr.py
 python3 plot_see.py
 ```
 
+`plot_traj.py` is the python file to plot the final episode's UAV trajectory for the 4 benchmarks in the paper
+```shell
+# plot UAV trajectory
+python3 plot_traj.py
+```
+
 
 ## References and Acknowledgement
 
