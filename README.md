@@ -34,7 +34,7 @@ python3 main_test.py --drl ddpg
 python3 main_test.py --drl td3
 ```
 
-`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one training
+`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments
 ```shell
 # plot everything for each episode
 python3 load_and_plot.py --path <RELATIVE_PATH> --ep_num 300
