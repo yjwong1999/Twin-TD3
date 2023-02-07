@@ -2,7 +2,7 @@
 
 **IEEE Wireless Communications and Networking Conference 2023 (WCNC 2023)** </br>
 Simulation for Conference Proceedings "doi-to-be-filled"
-
+Refer [this link](https://github.com/yjwong1999/Twin-TD3/blob/main/WCNC2023%20WS-09%20%231570879488.pdf) for the preprint
 
 ## Abstract
 This paper investigates the **physical layer security (PLS)** issue in **reconfigurable intelligent surface (RIS) aided millimeter-wave rotary-wing unmanned aerial vehicle (UAV) communications** under the presence of multiple eavesdroppers and imperfect channel state information (CSI). The goal is to maximize the **worst-case secrecy energy efficiency (SEE)** of UAV via a **joint optimization of flight trajectory, UAV active beamforming and RIS passive beamforming**. By interacting with the dynamically changing UAV environment, real-time decision making per time slot is possible via deep reinforcement learning (DRL). To decouple the continuous optimization variables, we introduce a **twin twin-delayed deep deterministic policy gradient (TTD3)** to maximize the expected cumulative reward, which is linked to SEE enhancement. Simulation results confirm that the proposed method achieves greater secrecy energy savings than the traditional twin-deep deterministic policy gradient DRL (TDDRL)-based method. 
