@@ -79,6 +79,8 @@ Summary
 
 ## References and Acknowledgement
 
+This work was supported by the **British Council** under **UK-ASEAN Institutional Links Early Career Researchers Scheme** with project number 913030644.
+
 Both **RIS Simulation** and the **System Model** for this Research Project are based the research work provided by [Brook1711](https://github.com/Brook1711). </br>
 We intended to fork the original repo for the system model (as stated below) as the base of this project. </br>
 However, GitHub does not allow a forked repo to be private. </br>
