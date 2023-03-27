@@ -6,9 +6,11 @@ import argparse
 
 # get argument from user
 parser = argparse.ArgumentParser()
-parser.add_argument('--drl', type = str, required = True, default='td3', help='which drl algo would you like to choose')
+parser.add_argument('--drl', type = str, required = True, default='td3', help='which drl algo would you like to choose [ddpg, td3]')
+parser.add_argument('--reward', type = str, required = True, default='see', help='which reward would you like to implement [ssr, see]')
 args = parser.parse_args()
 DRL_ALGO = args.drl
+REWARD = args.drl
 
 if DRL_ALGO == 'td3':
     from td3 import Agent
