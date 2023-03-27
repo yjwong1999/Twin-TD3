@@ -34,7 +34,8 @@ system = MiniSystem(
     if_move_users=True,
     if_movements=True,
     reverse_x_y=(False, False),
-    if_UAV_pos_state = True
+    if_UAV_pos_state = True,
+    reward = REWARD
     )
 if_Theta_fixed = False
 if_G_fixed = False
