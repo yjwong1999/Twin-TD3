@@ -106,6 +106,10 @@ class MiniSystem(object):
             self.attacker_list.append(attacker)
         # 1.5 generate the eavesdrop capacity array , shape: P X K
         self.eavesdrop_capacity_array= np.zeros((attacker_num, user_num))
+        
+        # 1.6 reward design
+        self.reward = reward # reward is ['ssr' or 'see']
+        
         # 2.init channel
         self.H_UR = mmWave_channel(self.UAV, self.RIS, fre)
         self.h_U_k = []
@@ -229,13 +233,14 @@ class MiniSystem(object):
         
         # 7.1 reward with energy efficiency
         ######################################################
-        # new for energy 
-        energy = energy_raw = get_energy_consumption(v_t)
-        energy -= ENERGY_MIN
-        energy /= (ENERGY_MAX - ENERGY_MIN)
-        energy_penalty = -1 * 0.1 * abs(reward) * energy # -1 * 0.1 * reward * energy
-        if reward > 0:
-            reward += energy_penalty
+        if reward == 'see':
+            # new for see
+            energy = energy_raw = get_energy_consumption(v_t)
+            energy -= ENERGY_MIN
+            energy /= (ENERGY_MAX - ENERGY_MIN)
+            energy_penalty = -1 * 0.1 * abs(reward) * energy # -1 * 0.1 * reward * energy
+            if reward > 0:
+                reward += energy_penalty
         ######################################################
         
         # 8 calculate if UAV is cross the bourder
