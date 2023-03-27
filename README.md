@@ -28,10 +28,14 @@ Run the following  in the `bash` or `powershell`
 
 `main_test.py` is the main python file to train the DRL algorithms
 ```shell
-# To use Twin DDPG
-python3 main_test.py --drl ddpg
-# To use Twin TD3
-python3 main_test.py --drl td3
+# To use Twin DDPG with SSR as optimization goal
+python3 main_test.py --drl ddpg --reward ssr
+# To use Twin TD3 with SSR as optimization goal
+python3 main_test.py --drl td3 --reward ssr
+# To use Twin DDPG with SEE as optimization goal
+python3 main_test.py --drl ddpg --reward see
+# To use Twin TD3 with SEE as optimization goal
+python3 main_test.py --drl td3 --reward see
 ```
 
 `load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments
