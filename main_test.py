@@ -24,6 +24,8 @@ from env import MiniSystem
 import numpy as np
 import math
 import time
+import torch
+
 # 1 init system model
 system = MiniSystem(
     user_num=2,
@@ -77,6 +79,8 @@ agent_2_param_dic["layer2_size"] = 300
 agent_2_param_dic["layer3_size"] = 256
 agent_2_param_dic["layer4_size"] = 128
 
+torch.manual_seed(123)
+torch.cuda.manual_seed_all(123)
 agent_1 = Agent(
     alpha       = agent_1_param_dic["alpha"],
     beta        = agent_1_param_dic["beta"],
@@ -93,6 +97,8 @@ agent_1 = Agent(
     agent_name= agent_1_param_dic["agent_name"]
     ) 
 
+torch.manual_seed(123)
+torch.cuda.manual_seed_all(123)
 agent_2 = Agent(
     alpha       = agent_2_param_dic["alpha"],
     beta        = agent_2_param_dic["beta"],
