@@ -10,7 +10,10 @@ parser.add_argument('--drl', type = str, required = True, default='td3', help='w
 parser.add_argument('--reward', type = str, required = True, default='see', help='which reward would you like to implement [ssr, see]')
 args = parser.parse_args()
 DRL_ALGO = args.drl
-REWARD_DESIGN = args.drl
+REWARD_DESIGN = args.reward
+
+assert DRL_ALGO in ['ddpg', 'td3'], "DRL must be ['ddpg', 'td3']"
+assert REWARD_DESIGN in ['ssr', 'see'], "DRL must be ['ssr', 'see']"
 
 if DRL_ALGO == 'td3':
     from td3 import Agent
