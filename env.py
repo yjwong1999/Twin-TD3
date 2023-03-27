@@ -108,7 +108,7 @@ class MiniSystem(object):
         self.eavesdrop_capacity_array= np.zeros((attacker_num, user_num))
         
         # 1.6 reward design
-        self.reward = reward # reward is ['ssr' or 'see']
+        self.reward_design = reward # reward is ['ssr' or 'see']
         
         # 2.init channel
         self.H_UR = mmWave_channel(self.UAV, self.RIS, fre)
@@ -233,7 +233,7 @@ class MiniSystem(object):
         
         # 7.1 reward with energy efficiency
         ######################################################
-        if reward == 'see':
+        if reward_design == 'see':
             # new for see
             energy = energy_raw = get_energy_consumption(v_t)
             energy -= ENERGY_MIN
