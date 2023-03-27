@@ -107,7 +107,5 @@ Main reference for TD3 implementation: </br>
 
 
 ## TODO
-Get TD3 3 and TD3 SEEM 5 UAV model
-Remove saving "best model"
-Add --see True
-Standardize the ms and kJ things
+Remove saving "best model" <br>
+Add --see True <br>
