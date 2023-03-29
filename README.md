@@ -94,7 +94,7 @@ Summary
 3. Generally, TTD3 algorithm are better than TTDRL
 4. Even with energy contraint (trade-off between energy consumption and SSR), TTD3 outperforms TDDRL in all aspects
 
-\* Remarks:
+\* Remarks: </br>
 Note that the performance of DRL (especially twin DRL) has a big variation, sometimes you may get extremely good (or bad) performance </br>
 It is advised to use the benchmark UAV models we trained, for better convergence. </br>
 This approach is consistent with the codes provided by [TDDRL](https://github.com/Brook1711/WCL-pulish-code)
