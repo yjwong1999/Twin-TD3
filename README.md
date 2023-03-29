@@ -46,8 +46,8 @@ python3 main_test.py --drl td3 --reward see
 python3 main_test.py --drl td3 --reward see --trained-uav
 
 # To set seeds for DRL weight initialization (not recommended if you use pretrained uav)
-python3 main_test.py --drl td3 --reward see --seeds [0]       # weights of both DRL are initialized with seed 0
-python3 main_test.py --drl td3 --reward see --seeds [0, 1]    # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
+python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
+python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
 ```
 
 `load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments
