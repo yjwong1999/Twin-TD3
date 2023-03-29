@@ -40,6 +40,8 @@ python3 main_test.py --drl ddpg --reward see
 # To use Twin TD3 with SEE as optimization goal
 python3 main_test.py --drl td3 --reward see
 
+
+
 # To use pretrained DRL for UAV trajectory (recommended for stable convergence)
 python3 main_test.py --drl td3 --reward see --trained-uav
 
