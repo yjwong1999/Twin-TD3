@@ -6,14 +6,22 @@ import argparse
 
 # get argument from user
 parser = argparse.ArgumentParser()
-parser.add_argument('--drl', type = str, required = True, default='td3', help='which drl algo would you like to choose [ddpg, td3]')
-parser.add_argument('--reward', type = str, required = True, default='see', help='which reward would you like to implement [ssr, see]')
+parser.add_argument('--drl', type = str, required = True, default='td3', help="which drl algo would you like to choose ['ddpg', 'td3']")
+parser.add_argument('--reward', type = str, required = True, default='see', help="which reward would you like to implement ['ssr', 'see']")
+parser.add_argument('--seeds', type = list, required = False, default=None, help="what seed(s) would you like to use for DRL 1 and 2, please provide in [1] or [1, 2] format")
+parser.add_argument('--trained-uav', default=False, action='store_true', help='use trained uav instead of retraining')
+
 args = parser.parse_args()
 DRL_ALGO = args.drl
 REWARD_DESIGN = args.reward
+SEEDS = args.seeds
+TRAINED_UAV = args.trained_uav
 
-assert DRL_ALGO in ['ddpg', 'td3'], "DRL must be ['ddpg', 'td3']"
-assert REWARD_DESIGN in ['ssr', 'see'], "DRL must be ['ssr', 'see']"
+# process the argument
+assert DRL_ALGO in ['ddpg', 'td3'], "drl must be ['ddpg', 'td3']"
+assert REWARD_DESIGN in ['ssr', 'see'], "reward must be ['ssr', 'see']"
+if SEEDS is not None:
+    assert len(SEEDS) in [1, 2] and isinstance(SEEDS[0], int) and isinstance(SEEDS[-1], int), "seeds must be a list of 1 or 2 integer"
 
 if DRL_ALGO == 'td3':
     from td3 import Agent
@@ -82,6 +90,9 @@ agent_2_param_dic["layer2_size"] = 300
 agent_2_param_dic["layer3_size"] = 256
 agent_2_param_dic["layer4_size"] = 128
 
+if SEEDS is not None:
+    torch.manual_seed(SEEDS[0]) # 1
+    torch.cuda.manual_seed_all(SEEDS[0]) # 1
 agent_1 = Agent(
     alpha       = agent_1_param_dic["alpha"],
     beta        = agent_1_param_dic["beta"],
@@ -98,6 +109,9 @@ agent_1 = Agent(
     agent_name= agent_1_param_dic["agent_name"]
     ) 
 
+if SEEDS is not None:
+    torch.manual_seed(SEEDS[-1]) # 2
+    torch.cuda.manual_seed_all(SEEDS[-1]) # 2
 agent_2 = Agent(
     alpha       = agent_2_param_dic["alpha"],
     beta        = agent_2_param_dic["beta"],
@@ -115,21 +129,14 @@ agent_2 = Agent(
     ) 
 
 
-'''
-agent_2.load_models(
-     load_file_actor = '/home/tham/Desktop/uav-td3/data/storage/2022-09-13 11_39_46/best/Actor_G_and_Phi_td3',
-     load_file_critic_1 ='/home/tham/Desktop/uav-td3/data/storage/2022-09-13 11_39_46/best/Critic_1_G_and_Phi_td3',
-     load_file_critic_2 ='/home/tham/Desktop/uav-td3/data/storage/2022-09-13 11_39_46/best/Critic_2_G_and_Phi_td3'
-     )
-'''
+if TRAINED_UAV:
+    benchmark = f'data/storage/{DRL_ALGO}_{REWARD_DESIGN}_benchmark'
+    agent_2.load_models(
+         load_file_actor = benchmark + '/Actor_UAV_TD3',
+         load_file_critic_1 = benchmark + '/Critic_1_UAV_TD3',
+         load_file_critic_2 = benchmark + '/Critic_2_UAV_TD3'
+         )
 
-'''
-# with benchmark data
-agent_2.load_models(
-     load_file_actor = '/home/tham/Desktop/uav-td3/data/storage/2021-01-08 16_52_32_robust_2/Actor_UAV_ddpg',
-     load_file_critic ='/home/tham/Desktop/uav-td3/data/storage/2021-01-08 16_52_32_robust_2/Critic_UAV_ddpg'
-     )
-'''
 
 meta_dic = {}
 print("***********************system information******************************")
@@ -249,7 +256,8 @@ while episode_cnt < episode_num:
             agent_2.remember(observersion_2, action_2, reward, new_state_2, int(done))
             # 5 update DDPG net
             agent_1.learn()
-            agent_2.learn() #agent_2.learn()
+            if not TRAINED_UAV:
+                agent_2.learn()
 
             #system.render_obj.render(0.001) # no rendering for faster
             observersion_1 = new_state_1
