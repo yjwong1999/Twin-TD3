@@ -8,7 +8,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--drl', type = str, required = True, default='td3', help="which drl algo would you like to choose ['ddpg', 'td3']")
 parser.add_argument('--reward', type = str, required = True, default='see', help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--seeds', type = list, required = False, default=None, help="what seed(s) would you like to use for DRL 1 and 2, please provide in [1] or [1, 2] format")
+parser.add_argument('--seeds', type = int, required = False, default=None,  nargs='+', help="what seed(s) would you like to use for DRL 1 and 2, please provide in one or two int")
 parser.add_argument('--trained-uav', default=False, action='store_true', help='use trained uav instead of retraining')
 
 args = parser.parse_args()
