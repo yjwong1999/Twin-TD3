@@ -207,8 +207,12 @@ class LoadAndPlot(object):
         plt.ylabel("Average Sum Secrecy Rate")
         plt.savefig(self.store_path + 'plot/average_sum_secrecy_rate.png')
         plt.cla()
-        
-        print(average_sum_secrecy_rate[-1], max(average_sum_secrecy_rate))
+
+        print()
+        print('###########################################################')
+        print('Metrics\t\t\tLast Episode\tMax Values Reached')
+        print('###########################################################')
+        print('SSR (bits/s/Hz)\t\t{:.2f}\t\t{:.2f}'.format(average_sum_secrecy_rate[-1], max(average_sum_secrecy_rate)))
         
 
         ###############################
@@ -261,9 +265,9 @@ class LoadAndPlot(object):
         plt.savefig(self.store_path + 'plot/average_secrecy_energy_efficiency.png')
         plt.cla() 
         
-        print(average_see[-1], max(average_see))
-        print(sum(energies[-1]), sum(energies[np.argmax(average_see)]))
-
+        print('Energy (kJ)\t\t{:.2f}\t\t{:.2f}'.format(sum(energies[-1])/1000, sum(energies[np.argmax(average_see)])/1000))
+        print('SEE (bits/s/Hz/kJ)\t{:.2f}\t\t{:.2f}'.format(average_see[-1]*1000, max(average_see)*1000))
+        print('\nThe final performance is evalulated based on the Last Episode (where exploration=0)\n')
         
         
         ###############################
