@@ -129,6 +129,7 @@ Main reference for TD3 implementation: </br>
 
 
 ## TODO
+- [ ] Add argparse arguments to set episode number
 - [x] Add argparse arguments to set seeds for the two DRLs
 - [x] Add argparse arguments to load pretrained DRL for UAV trajectory
 - [ ] Add benchmark/pretrained model
