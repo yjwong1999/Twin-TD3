@@ -137,4 +137,4 @@ Main reference for TD3 implementation: </br>
 - [x] Add argparse arguments to set seeds for the two DRLs
 - [x] Add argparse arguments to load pretrained DRL for UAV trajectory
 - [x] Add benchmark/pretrained model
-- [ ] Remove saving "best model"
+- [ ] Remove saving "best model", there are no best model, only latest model
