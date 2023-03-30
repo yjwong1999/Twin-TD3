@@ -43,7 +43,7 @@ python3 main_test.py --drl td3 --reward see
 
 
 # To use pretrained DRL for UAV trajectory (recommended for stable convergence)
-python3 main_test.py --drl td3 --reward see --trained-uav
+python3 main_test.py --drl td3 --reward see --trained_uav
 
 # To set seeds for DRL weight initialization (not recommended if you use pretrained uav)
 python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
