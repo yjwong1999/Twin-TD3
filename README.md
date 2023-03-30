@@ -45,6 +45,9 @@ python3 main_test.py --drl td3 --reward see
 # To use pretrained DRL for UAV trajectory (recommended for stable convergence)
 python3 main_test.py --drl td3 --reward see --trained_uav
 
+# To set number of episodes (default is 300)
+python3 main_test.py --drl td3 --reward see --ep_num 300
+
 # To set seeds for DRL weight initialization (not recommended if you use pretrained uav)
 python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
 python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
@@ -129,7 +132,8 @@ Main reference for TD3 implementation: </br>
 
 
 ## TODO
-- [ ] Add argparse arguments to set episode number
+- [x] Add argparse arguments to set drl algo and reward type
+- [x] Add argparse arguments to set episode number
 - [x] Add argparse arguments to set seeds for the two DRLs
 - [x] Add argparse arguments to load pretrained DRL for UAV trajectory
 - [ ] Add benchmark/pretrained model
