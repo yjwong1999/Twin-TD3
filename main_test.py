@@ -9,12 +9,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--drl', type = str, required = True, default='td3', help="which drl algo would you like to choose ['ddpg', 'td3']")
 parser.add_argument('--reward', type = str, required = True, default='see', help="which reward would you like to implement ['ssr', 'see']")
 parser.add_argument('--seeds', type = int, required = False, default=None,  nargs='+', help="what seed(s) would you like to use for DRL 1 and 2, please provide in one or two int")
-parser.add_argument('--trained-uav', default=False, action='store_true', help='use trained uav instead of retraining')
+parser.add_argument('--ep_num', type = int, required = False, default=300, help="how many episodes do you want to train your DRL")
+parser.add_argument('--trained_uav', default=False, action='store_true', help='use trained uav instead of retraining')
 
 args = parser.parse_args()
 DRL_ALGO = args.drl
 REWARD_DESIGN = args.reward
 SEEDS = args.seeds
+EPISODE_NUM = args.ep_num
 TRAINED_UAV = args.trained_uav
 
 # process the argument
@@ -56,7 +58,7 @@ if_BS = False
 if_robust = True
 # 2 init RL Agent
 
-episode_num = 300
+episode_num = EPISODE_NUM # recommend to be 300
 episode_cnt = 0
 step_num = 100
 
@@ -131,12 +133,17 @@ agent_2 = Agent(
 
 if TRAINED_UAV:
     benchmark = f'data/storage/{DRL_ALGO}_{REWARD_DESIGN}_benchmark'
-    agent_2.load_models(
-         load_file_actor = benchmark + '/Actor_UAV_TD3',
-         load_file_critic_1 = benchmark + '/Critic_1_UAV_TD3',
-         load_file_critic_2 = benchmark + '/Critic_2_UAV_TD3'
-         )
-
+    if DRL_ALGO == 'td3':
+        agent_2.load_models(
+             load_file_actor = benchmark + '/Actor_UAV_TD3',
+             load_file_critic_1 = benchmark + '/Critic_1_UAV_TD3',
+             load_file_critic_2 = benchmark + '/Critic_2_UAV_TD3'
+             )
+    elif DRL_ALGO == 'ddpg':
+        agent_2.load_models(
+             load_file_actor = benchmark + '/Actor_UAV_ddpg',
+             load_file_critic = benchmark + '/Critic_UAV_ddpg'
+             )
 
 meta_dic = {}
 print("***********************system information******************************")
