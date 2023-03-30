@@ -132,7 +132,7 @@ agent_2 = Agent(
 
 
 if TRAINED_UAV:
-    benchmark = f'data/storage/{DRL_ALGO}_{REWARD_DESIGN}_benchmark'
+    benchmark = f'data/storage/benchmark/{DRL_ALGO}_{REWARD_DESIGN}_benchmark'
     if DRL_ALGO == 'td3':
         agent_2.load_models(
              load_file_actor = benchmark + '/Actor_UAV_TD3',
