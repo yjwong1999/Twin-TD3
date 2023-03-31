@@ -99,6 +99,7 @@ Summary
 
 \* Remarks: </br>
 Note that the performance of DRL (especially twin DRL) has a big variation, sometimes you may get extremely good (or bad) performance </br>
+The above benchmark results are averaged performance of several experiments, to get a more holistic understandings on the algorithms </br>
 It is advised to use the benchmark UAV models we trained, for better convergence. </br>
 This approach is consistent with the codes provided by [TDDRL](https://github.com/Brook1711/WCL-pulish-code)
 
