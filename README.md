@@ -42,7 +42,7 @@ python3 main_test.py --drl td3 --reward see
 
 
 
-# To use pretrained DRL for UAV trajectory (recommended for stable convergence)
+# To use pretrained DRL for UAV trajectory (todo for next update)
 python3 main_test.py --drl td3 --reward see --trained_uav
 
 # To set number of episodes (default is 300)
@@ -100,8 +100,6 @@ Summary
 \* Remarks: </br>
 Note that the performance of DRL (especially twin DRL) has a big variation, sometimes you may get extremely good (or bad) performance </br>
 The above benchmark results are averaged performance of several experiments, to get a more holistic understandings on the algorithms </br>
-It is advised to use the benchmark UAV models we trained, for better convergence. </br>
-This approach is consistent with the codes provided by [TDDRL](https://github.com/Brook1711/WCL-pulish-code)
 
 ## References and Acknowledgement
 
