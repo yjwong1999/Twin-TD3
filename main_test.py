@@ -189,7 +189,7 @@ system.data_manager.save_meta_data(meta_dic)
 
 print("***********************traning information******************************")
 
-best = -99999
+
 while episode_cnt < episode_num:
     # 1 reset the whole system
     system.reset()
@@ -280,9 +280,9 @@ while episode_cnt < episode_num:
     print("ep_num: "+str(episode_cnt)+"   ep_score:  "+str(score_per_ep))
     episode_cnt +=1
     if episode_cnt % 10 == 0:
-        agent_1.save_models(best=False)
-        agent_2.save_models(best=False)
-    if best < score_per_ep:
-        agent_1.save_models(best=True)
-        agent_2.save_models(best=True)
-        best = score_per_ep
+        agent_1.save_models()
+        agent_2.save_models()
+
+# save the last model
+agent_1.save_models()
+agent_2.save_models()

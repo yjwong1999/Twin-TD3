@@ -79,7 +79,6 @@ class CriticNetwork(nn.Module):
         self.fc2_dims = fc2_dims
         self.n_actions = n_actions
         self.checkpoint_file = os.path.join(chkpt_dir,name+'_ddpg')
-        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_ddpg')
         self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)
         f1 = 1./np.sqrt(self.fc1.weight.data.size()[0])
         T.nn.init.uniform_(self.fc1.weight.data, -f1, f1)
@@ -123,13 +122,9 @@ class CriticNetwork(nn.Module):
 
         return state_action_value
 
-    def save_checkpoint(self, best=True):
-        if best:
-            print('... saving best checkpoint ...')
-            T.save(self.state_dict(), self.best_checkpoint_file)
-        else:
-            print('... saving checkpoint ...')
-            T.save(self.state_dict(), self.checkpoint_file)
+    def save_checkpoint(self):
+        print('... saving checkpoint ...')
+        T.save(self.state_dict(), self.checkpoint_file)
 
     def load_checkpoint(self):
         print('... loading checkpoint ...')
@@ -144,7 +139,6 @@ class ActorNetwork(nn.Module):
         self.fc2_dims = fc2_dims
         self.n_actions = n_actions
         self.checkpoint_file = os.path.join(chkpt_dir,name+'_ddpg')
-        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_ddpg')
         self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)
         f1 = 1./np.sqrt(self.fc1.weight.data.size()[0])
         T.nn.init.uniform_(self.fc1.weight.data, -f1, f1)
@@ -186,13 +180,9 @@ class ActorNetwork(nn.Module):
 
         return x
 
-    def save_checkpoint(self, best=True):
-        if best:
-            print('... saving best checkpoint ...')
-            T.save(self.state_dict(), self.best_checkpoint_file)
-        else:
-            print('... saving checkpoint ...')
-            T.save(self.state_dict(), self.checkpoint_file)
+    def save_checkpoint(self):
+        print('... saving checkpoint ...')
+        T.save(self.state_dict(), self.checkpoint_file)
 
     def load_checkpoint(self):
         print('... loading checkpoint ...')
@@ -336,11 +326,11 @@ class Agent(object):
             print(name, T.equal(param, critic_state_dict[name]))
         input()
         """
-    def save_models(self, best=True):
-        self.actor.save_checkpoint(best=best)
-        self.target_actor.save_checkpoint(best=best)
-        self.critic.save_checkpoint(best=best)
-        self.target_critic.save_checkpoint(best=best)
+    def save_models(self):
+        self.actor.save_checkpoint()
+        self.target_actor.save_checkpoint()
+        self.critic.save_checkpoint()
+        self.target_critic.save_checkpoint()
 
     def load_models(self):
         self.actor.load_checkpoint()

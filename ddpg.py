@@ -82,7 +82,6 @@ class CriticNetwork(nn.Module):
         self.fc4_dims = fc4_dims
         self.n_actions = n_actions
         self.checkpoint_file = os.path.join(chkpt_dir,name+'_ddpg')
-        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_ddpg')
         self.load_file = 'C:\\demo\\other_branch\\Learning-based_Secure_Transmission_for_RIS_Aided_mmWave-UAV_Communications_with_Imperfect_CSI\\data\\mannal_store\\models\\Critic_UAV_ddpg'
         self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)
         f1 = 1./np.sqrt(self.fc1.weight.data.size()[0])
@@ -153,13 +152,9 @@ class CriticNetwork(nn.Module):
 
         return state_action_value
 
-    def save_checkpoint(self, best=True):
-        if best:
-            print('... saving best checkpoint ...')
-            T.save(self.state_dict(), self.best_checkpoint_file)
-        else:
-            print('... saving checkpoint ...')
-            T.save(self.state_dict(), self.checkpoint_file)
+    def save_checkpoint(self):
+        print('... saving checkpoint ...')
+        T.save(self.state_dict(), self.checkpoint_file)
 
     def load_checkpoint(self,load_file = ''):
         print('... loading checkpoint ...')
@@ -176,7 +171,6 @@ class ActorNetwork(nn.Module):
         self.fc4_dims = fc4_dims        
         self.n_actions = n_actions
         self.checkpoint_file = os.path.join(chkpt_dir,name+'_ddpg')
-        self.best_checkpoint_file = os.path.join(chkpt_dir,'best', name+'_ddpg')
         self.load_file = 'C:\\demo\\other_branch\\Learning-based_Secure_Transmission_for_RIS_Aided_mmWave-UAV_Communications_with_Imperfect_CSI\\data\\mannal_store\\models\\Actor_UAV_ddpg'
         self.fc1 = nn.Linear(*self.input_dims, self.fc1_dims)
         f1 = 1./np.sqrt(self.fc1.weight.data.size()[0])
@@ -241,13 +235,9 @@ class ActorNetwork(nn.Module):
 
         return x
 
-    def save_checkpoint(self, best=True):
-        if best:
-            print('... saving best checkpoint ...')
-            T.save(self.state_dict(), self.best_checkpoint_file)
-        else:
-            print('... saving checkpoint ...')
-            T.save(self.state_dict(), self.checkpoint_file)
+    def save_checkpoint(self):
+        print('... saving checkpoint ...')
+        T.save(self.state_dict(), self.checkpoint_file)
 
     def load_checkpoint(self, load_file=''):
         print('... loading checkpoint ...')
@@ -392,11 +382,11 @@ class Agent(object):
             print(name, T.equal(param, critic_state_dict[name]))
         input()
         """
-    def save_models(self, best):
-        self.actor.save_checkpoint(best=best)
-        self.target_actor.save_checkpoint(best=best)
-        self.critic.save_checkpoint(best=best)
-        self.target_critic.save_checkpoint(best=best)
+    def save_models(self):
+        self.actor.save_checkpoint()
+        self.target_actor.save_checkpoint()
+        self.critic.save_checkpoint()
+        self.target_critic.save_checkpoint()
 
     def load_models(self, load_file_actor = '',load_file_critic =''):
         self.actor.load_checkpoint(load_file = load_file_actor)
