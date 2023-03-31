@@ -48,7 +48,7 @@ python3 main_test.py --drl td3 --reward see --trained_uav
 # To set number of episodes (default is 300)
 python3 main_test.py --drl td3 --reward see --ep_num 300
 
-# To set seeds for DRL weight initialization (not recommended)
+# To set seeds (can be any integer) for DRL weight initialization (not recommended)
 python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
 python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
 ```
