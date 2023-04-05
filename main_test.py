@@ -40,6 +40,10 @@ import time
 import torch
 
 # 1 init system model
+episode_num = EPISODE_NUM # recommend to be 300
+episode_cnt = 0
+step_num = 100
+
 system = MiniSystem(
     user_num=2,
     RIS_ant_num=4,
@@ -50,18 +54,17 @@ system = MiniSystem(
     if_movements=True,
     reverse_x_y=(False, False),
     if_UAV_pos_state = True,
-    reward_design = REWARD_DESIGN
+    reward_design = REWARD_DESIGN,
+    step_num = step_num
     )
+
 if_Theta_fixed = False
 if_G_fixed = False
 if_BS = False
 if_robust = True
+
+
 # 2 init RL Agent
-
-episode_num = EPISODE_NUM # recommend to be 300
-episode_cnt = 0
-step_num = 100
-
 agent_1_param_dic = {}
 agent_1_param_dic["alpha"] = 0.0001
 agent_1_param_dic["beta"] = 0.001

@@ -42,13 +42,13 @@ python3 main_test.py --drl td3 --reward see
 
 
 
-# To use pretrained DRL for UAV trajectory (todo for next update)
+# To use pretrained DRL for UAV trajectory (recommended for stable convergence)
 python3 main_test.py --drl td3 --reward see --trained_uav
 
 # To set number of episodes (default is 300)
 python3 main_test.py --drl td3 --reward see --ep_num 300
 
-# To set seeds (can be any integer) for DRL weight initialization (not recommended)
+# To set seeds for DRL weight initialization (not recommended if you use pretrained uav)
 python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
 python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
 ```
@@ -100,6 +100,8 @@ Summary
 \* Remarks: </br>
 Note that the performance of DRL (especially twin DRL) has a big variation, sometimes you may get extremely good (or bad) performance </br>
 The above benchmark results are averaged performance of several experiments, to get a more holistic understandings on the algorithms </br>
+It is advised to use the benchmark UAV models we trained, for better convergence. </br>
+This approach is consistent with the codes provided by [TDDRL](https://github.com/Brook1711/WCL-pulish-code)
 
 ## References and Acknowledgement
 
@@ -135,6 +137,6 @@ Main reference for TD3 implementation: </br>
 - [x] Add argparse arguments to set episode number
 - [x] Add argparse arguments to set seeds for the two DRLs
 - [x] Add argparse arguments to load pretrained DRL for UAV trajectory
-- [ ] Add benchmark/pretrained model
-- [ ] Project naming (use ```<DRL>_<Reward>_<Num>``` instead of using datetime format)
-- [x] Remove saving "best model", there are no best model, only latest model
+- [x] Add benchmark/pretrained model
+- [ ] Project naming (use <DRL>_<Reward>_<Num> instead of using datetime format)
+- [ ] Remove saving "best model", there are no best model, only latest model

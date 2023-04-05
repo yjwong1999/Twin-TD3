@@ -2,7 +2,7 @@ import numpy as np
 import scipy.io
 import pandas as pd
 import os
-import time
+import time, csv
 
 class DataManager(object):
     """
@@ -23,6 +23,11 @@ class DataManager(object):
         self.init_format()
 
     def save_file(self, episode_cnt = 10):
+        # record step counts per episode
+        with open(self.store_path + "/step_num_per_episode.csv", "a") as f:
+            writer = csv.writer(f)
+            writer.writerow([len(list(self.simulation_result_dic.values())[0])])
+
         # when ended, auto save to .mat file
         scipy.io.savemat(self.store_path + '/simulation_result_ep_' + str(episode_cnt) + '.mat', {'result_' + str(episode_cnt):self.simulation_result_dic})
         self.simulation_result_dic = {}

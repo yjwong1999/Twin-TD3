@@ -6,6 +6,7 @@ import pandas as pd
 import os
 import copy
 import math
+import csv
 
 import argparse
 
@@ -161,6 +162,15 @@ class LoadAndPlot(object):
 
         color_list = ['b', 'g', 'c', 'k', 'm', 'r', 'y']
         
+
+        ###############################
+        # read step counts per episode
+        ###############################
+        step_num_per_episode = []
+        with open(self.store_path + 'step_num_per_episode.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                step_num_per_episode.append(int(row[0]))
         
         ###############################
         # plot reward
@@ -194,8 +204,11 @@ class LoadAndPlot(object):
         sum_secrecy_rate = np.sum(sum_secrecy_rate, axis = 0)
         average_sum_secrecy_rate = []
         ssr = []
-        for i in range(0, self.ep_num * self.step_num, self.step_num):
-            ssr_one_episode = sum_secrecy_rate[i:i+self.step_num] # ssr means Sum Secrecy Rate
+        j = 0
+        for i in range(self.ep_num):
+            ssr_one_episode = sum_secrecy_rate[j:j+step_num_per_episode[i]] # ssr means Sum Secrecy Rate
+            #print(j, j+step_num_per_episode[i])
+            j = j+step_num_per_episode[i]
             ssr.append(ssr_one_episode)
             try:
                 _ = sum(ssr_one_episode) / len(ssr_one_episode)
