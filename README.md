@@ -25,7 +25,8 @@ Setup the repo
 ```
 git clone https://github.com/yjwong1999/Twin-TD3.git
 cd Twin-TD3
-conda create --name <env> python=3.10.4 --file requirements.txt
+conda create --name <env> python=3.10.4
+pip3 install -r requirements.txt
 ```
 
 User can train two types of algorithm for training:
