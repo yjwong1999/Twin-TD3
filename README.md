@@ -24,7 +24,8 @@ We adopt **double DRL framework**, where the 1st and 2nd agent provides the poli
 Setup the repo
 ```
 git clone https://github.com/yjwong1999/Twin-TD3.git
-conda create --name <env> python=3.10.4--file requirements.txt
+cd Twin-TD3
+conda create --name <env> python=3.10.4 --file requirements.txt
 ```
 
 User can train two types of algorithm for training:
