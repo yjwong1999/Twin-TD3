@@ -23,6 +23,7 @@ We adopt **double DRL framework**, where the 1st and 2nd agent provides the poli
 
 Setup the repo
 ```
+git clone https://github.com/yjwong1999/Twin-TD3.git
 conda create --name <env> --file requirements.txt
 ```
 
