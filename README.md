@@ -68,24 +68,6 @@ batch_train.sh
 batch_eval.sh
 ```
 
-`plot_ssr.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
-```shell
-# plot ssr
-python3 plot_ssr.py
-```
-
-`plot_see.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
-```shell
-# plot see
-python3 plot_see.py
-```
-
-`plot_traj.py` is the python file to plot the final episode's UAV trajectory for the 4 benchmarks in the paper
-```shell
-# plot UAV trajectory
-python3 plot_traj.py
-```
-
 ## Results
 
 We run the ```main_test.py``` for 5 times for each settings below, and averaged out the performance
@@ -147,5 +129,24 @@ Main reference for TD3 implementation: </br>
 - [x] Add argparse arguments to set seeds for the two DRLs
 - [x] Add argparse arguments to load pretrained DRL for UAV trajectory
 - [x] Add benchmark/pretrained model
-- [ ] Project naming (use <DRL>_<Reward>_<Num> instead of using datetime format)
+- [x] Project naming (use <DRL>_<Reward>_<Num> instead of using datetime format)
 - [x] Remove saving "best model", there are no best model, only latest model
+
+- [ ] The following codes can be used, but you have to manually change the filepath in the codes
+`plot_ssr.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
+```shell
+# plot ssr
+python3 plot_ssr.py
+```
+
+`plot_see.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
+```shell
+# plot see
+python3 plot_see.py
+```
+
+`plot_traj.py` is the python file to plot the final episode's UAV trajectory for the 4 benchmarks in the paper
+```shell
+# plot UAV trajectory
+python3 plot_traj.py
+```
