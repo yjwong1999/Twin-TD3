@@ -23,10 +23,11 @@ We adopt **double DRL framework**, where the 1st and 2nd agent provides the poli
 
 Setup the repo
 ```
+conda create --name testing123 python=3.10.4
+conda activate testing123
 git clone https://github.com/yjwong1999/Twin-TD3.git
 cd Twin-TD3
-conda create --name <env> python=3.10.4
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 User can train two types of algorithm for training:
@@ -72,10 +73,10 @@ python3 load_and_plot.py --path data/storage/trained_uav/<DIR> --ep-num 300   # 
 Note that you can use the bash script `batch_train.sh` and `batch_eval.sh` to train the algorithms and evaluate them using the previous two python codes
 ```shell
 # To train on batch
-batch_train.sh
+bash batch_train.sh
 
 # To evaluate on batch
-batch_eval.sh
+bash batch_eval.sh
 ```
 
 ## Results
