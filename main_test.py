@@ -44,6 +44,8 @@ episode_num = EPISODE_NUM # recommend to be 300
 episode_cnt = 0
 step_num = 100
 
+project_name = f'trained_uav/{DRL_ALGO}_{REWARD_DESIGN}' if TRAINED_UAV else f'scratch/{DRL_ALGO}_{REWARD_DESIGN}'
+
 system = MiniSystem(
     user_num=2,
     RIS_ant_num=4,
@@ -55,6 +57,7 @@ system = MiniSystem(
     reverse_x_y=(False, False),
     if_UAV_pos_state = True,
     reward_design = REWARD_DESIGN,
+    project_name = project_name,
     step_num = step_num
     )
 
@@ -150,8 +153,8 @@ if TRAINED_UAV:
 
 meta_dic = {}
 print("***********************system information******************************")
-print("folder_name:     "+str(system.data_manager.time_stemp))
-meta_dic['folder_name'] = system.data_manager.time_stemp
+print("folder_name:     "+str(system.data_manager.store_path))
+meta_dic['folder_name'] = system.data_manager.store_path
 print("user_num:        "+str(system.user_num))
 meta_dic['user_num'] = system.user_num
 print("if_dir:          "+str(system.if_dir_link))

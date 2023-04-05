@@ -10,12 +10,22 @@ class DataManager(object):
     before use, please create a direction under current file path './data'
     and must have a file 'init_location.xlsx' which contain the position of each entities
     """
-    def __init__(self, store_list = ['beamforming_matrix', 'reflecting_coefficient', 'UAV_state', 'user_capacity'],file_path = './data', store_path = './data/storage'):
+    def __init__(self, store_list = ['beamforming_matrix', 'reflecting_coefficient', 'UAV_state', 'user_capacity'],file_path = './data', store_path = './data/storage', project_name = None):
         # 1 init location data
         self.store_list = store_list
         self.init_data_file = file_path + '/init_location.xlsx'
-        self.time_stemp = time.strftime('/%Y-%m-%d %H_%M_%S',time.localtime(time.time()))
-        self.store_path = store_path + self.time_stemp 
+        if project_name is None:
+            self.time_stemp = time.strftime('/%Y-%m-%d %H_%M_%S',time.localtime(time.time()))
+            self.store_path = store_path + self.time_stemp 
+        else:
+            for i in range(1, 100, 1):
+                if i == 1:
+                    dir_name = store_path + '/' + project_name
+                else:
+                    dir_name = store_path + '/' + project_name + f'_{i}'
+                if not os.path.isdir(dir_name):
+                    self.store_path = dir_name
+                    break
         os.makedirs(self.store_path) 
         os.makedirs(os.path.join(self.store_path, 'best')) # to save best agent weights
         # self.writer = pd.ExcelWriter(self.store_path + '/simulation_result.xlsx', engine='openpyxl')  # pylint: disable=abstract-class-instantiated 
