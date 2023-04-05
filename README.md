@@ -23,8 +23,8 @@ We adopt **double DRL framework**, where the 1st and 2nd agent provides the poli
 
 Setup the repo
 ```
-conda create --name testing123 python=3.10.4
-conda activate testing123
+conda create --name <env> python=3.10.4
+conda activate <env>
 git clone https://github.com/yjwong1999/Twin-TD3.git
 cd Twin-TD3
 pip install -r requirements.txt
