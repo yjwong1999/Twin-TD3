@@ -43,10 +43,10 @@ python3 main_test.py --drl td3 --reward see
 
 
 # To use pretrained DRL for UAV trajectory (recommended for stable convergence)
-python3 main_test.py --drl td3 --reward see --trained_uav
+python3 main_test.py --drl td3 --reward see --trained-uav
 
 # To set number of episodes (default is 300)
-python3 main_test.py --drl td3 --reward see --ep_num 300
+python3 main_test.py --drl td3 --reward see --ep-num 300
 
 # To set seeds for DRL weight initialization (not recommended if you use pretrained uav)
 python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
@@ -56,7 +56,8 @@ python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 a
 `load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments
 ```shell
 # plot everything for each episode
-python3 load_and_plot.py --path data/storage/<DIR> --ep_num 300
+python3 load_and_plot.py --path data/storage/scratch/<DIR> --ep-num 300       # if you train the algorithm without the pretrained uav
+python3 load_and_plot.py --path data/storage/trained_uav/<DIR> --ep-num 300   # if you train the algorithm with the pretrained uav
 ```
 
 Note that you can use the bash script `batch_train.sh` and `batch_eval.sh` to train the algorithms and evaluate them using the previous two python codes
