@@ -131,8 +131,8 @@ Main reference for TD3 implementation: </br>
 - [x] Add benchmark/pretrained model
 - [x] Project naming (use <DRL>_<Reward>_<Num> instead of using datetime format)
 - [x] Remove saving "best model", there are no best model, only latest model
-
 - [ ] The following codes can be used, but you have to manually change the filepath in the codes
+
 `plot_ssr.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
 ```shell
 # plot ssr
