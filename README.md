@@ -20,6 +20,12 @@ A **Twin-TD3 (TTD3) algorithm** to decouple the joint optimization of:
 We adopt **double DRL framework**, where the 1st and 2nd agent provides the policy for task (1) and (2), respectively.
 
 ## How to use this repo
+
+Setup the repo
+```
+conda create --name <env> --file requirements.txt
+```
+
 User can train two types of algorithm for training:
 1. Twin DDPG is [TDDRL algorithm](https://doi.org/10.1109/LWC.2021.3081464)
 2. Twin TD3 is our proposed TTD3 algorithm
