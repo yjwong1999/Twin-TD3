@@ -9,8 +9,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--drl', type = str, required = True, default='td3', help="which drl algo would you like to choose ['ddpg', 'td3']")
 parser.add_argument('--reward', type = str, required = True, default='see', help="which reward would you like to implement ['ssr', 'see']")
 parser.add_argument('--seeds', type = int, required = False, default=None,  nargs='+', help="what seed(s) would you like to use for DRL 1 and 2, please provide in one or two int")
-parser.add_argument('--ep_num', type = int, required = False, default=300, help="how many episodes do you want to train your DRL")
-parser.add_argument('--trained_uav', default=False, action='store_true', help='use trained uav instead of retraining')
+parser.add_argument('--ep-num', type = int, required = False, default=300, help="how many episodes do you want to train your DRL")
+parser.add_argument('--trained-uav', default=False, action='store_true', help='use trained uav instead of retraining')
 
 args = parser.parse_args()
 DRL_ALGO = args.drl

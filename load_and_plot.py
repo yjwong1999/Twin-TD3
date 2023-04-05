@@ -13,7 +13,7 @@ import argparse
 # get argument from user
 parser = argparse.ArgumentParser()
 parser.add_argument('--path', type = str, required = False, default=None, help='the path where the training/simulation data is stored')
-parser.add_argument('--ep_num', type = int, required = False, default=100, help='total number of episodes')
+parser.add_argument('--ep-num', type = int, required = False, default=100, help='total number of episodes')
 
 
 # extract argument
