@@ -59,6 +59,15 @@ python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 a
 python3 load_and_plot.py --path data/storage/<DIR> --ep_num 300
 ```
 
+Note that you can use the bash script `batch_train.sh` and `batch_eval.sh` to train the algorithms and evaluate them using the previous two python codes
+```shell
+# To train on batch
+batch_train.sh
+
+# To evaluate on batch
+batch_eval.sh
+```
+
 `plot_ssr.py` is the python file to plot the final episode's SSR for the 4 benchmarks in the paper
 ```shell
 # plot ssr
