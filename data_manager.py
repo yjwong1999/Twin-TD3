@@ -34,7 +34,7 @@ class DataManager(object):
 
     def save_file(self, episode_cnt = 10):
         # record step counts per episode
-        with open(self.store_path + "/step_num_per_episode.csv", "a") as f:
+        with open(self.store_path + "/step_num_per_episode.csv", "a", newline='') as f:
             writer = csv.writer(f)
             writer.writerow([len(list(self.simulation_result_dic.values())[0])])
 
