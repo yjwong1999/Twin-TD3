@@ -20,10 +20,6 @@ parser.add_argument('--ep-num', type = int, required = False, default=100, help=
 args = parser.parse_args()
 STORE_PATH = args.path
 EP_NUM = args.ep_num
-if STORE_PATH is None:
-    STORE_PATH = 'data/storage/2022-09-13 11_39_46' # best TD3 so far
-    STORE_PATH = 'data/storage/2021-01-08 16_52_32_robust_2' # DDPG Benchmark from https://ieeexplore.ieee.org/document/9434412
-
 
 
 ######################################################
