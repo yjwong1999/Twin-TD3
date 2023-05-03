@@ -27,7 +27,6 @@ class DataManager(object):
                     self.store_path = dir_name
                     break
         os.makedirs(self.store_path) 
-        os.makedirs(os.path.join(self.store_path, 'best')) # to save best agent weights
         # self.writer = pd.ExcelWriter(self.store_path + '/simulation_result.xlsx', engine='openpyxl')  # pylint: disable=abstract-class-instantiated 
         self.simulation_result_dic = {}
         self.init_format()
