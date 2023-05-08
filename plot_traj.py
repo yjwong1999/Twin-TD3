@@ -1,5 +1,5 @@
 import matplotlib as mpl
-mpl.rcParams['figure.dpi'] = 300
+mpl.rcParams['figure.dpi'] = 100
 import matplotlib.pyplot as plt
 import numpy as np
 import cmath
@@ -70,12 +70,13 @@ class LoadAndPlot(object):
     """
     load date and plot 2022-07-22 16_16_26
     """
-    def __init__(self, store_path, \
+    def __init__(self, store_paths, \
                        user_num = 2, attacker_num = 1, RIS_ant_num = 4, \
                        ep_num = 300, step_num = 100): # RIS_ant_num = 16 (not true)
 
+        self.store_paths = store_paths
         self.color_list = ['b', 'c', 'g', 'k', 'm', 'r', 'y']
-        self.store_path = store_path + '//'
+#        self.store_path = store_path + '//'
         self.user_num = user_num
         self.attacker_num = attacker_num
         self.RIS_ant_num = RIS_ant_num
@@ -172,14 +173,14 @@ class LoadAndPlot(object):
         plt.plot([init_eaves_coord[1]], [init_eaves_coord[0]], marker="v", markersize=MARKER_SIZE, markeredgecolor="black", markerfacecolor="none")
         
         # paths
-        store_paths = ['data/storage/ddpg 2', 'data/storage/td3 3', 'data/storage/ddpg seem 3', 'data/storage/td3 seem 5']
-        store_paths = ['data/storage/ddpg 2', 'data/storage/td3 3', 'data/storage/ddpg seem 3', 'data/storage/td3 seem 5']
+#        store_paths = ['data/storage/ddpg 2', 'data/storage/td3 3', 'data/storage/ddpg seem 3', 'data/storage/td3 seem 5']
+#        store_paths = ['data/storage/ddpg 2', 'data/storage/td3 3', 'data/storage/ddpg seem 3', 'data/storage/td3 seem 5']
         legends = ['TDDRL', 'TTD3', 'TDDRL (Energy Penalty)', 'TTD3 (Energy Penalty)']
         legends = ['Benchmark 1', 'Benchmark 2', 'Benchmark 3', 'Proposed method']
      
-        for store_path, legend in zip(store_paths, legends):
+        for store_path, legend in zip(self.store_paths, legends):
             # read the mat file
-            i = 300 - 1 # episode 300
+            i = 5 - 1 # episode 300
             filename = f'simulation_result_ep_{i}.mat'
             filename = os.path.join(store_path, filename)
             data = loadmat(filename)
@@ -260,13 +261,14 @@ class LoadAndPlot(object):
         plt.ylabel('y(m)')
         plt.tight_layout()
         plt.gca().invert_yaxis()
-        plt.savefig('data/trajectory.png')
-        plt.cla()
+        plt.savefig('data/trajectory2123.png')
+        #plt.cla()
 
         
 if __name__ == '__main__':
     LoadPlotObject = LoadAndPlot(
-        store_path = '',
+        store_paths = ['data/storage/scratch/ddpg_ssr', 'data/storage/scratch/td3_ssr', 'data/storage/scratch/ddpg_see', 'data/storage/scratch/td3_see'],
+        ep_num=5,
         )
     LoadPlotObject.plot()
 
