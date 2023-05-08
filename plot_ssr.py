@@ -70,12 +70,14 @@ class LoadAndPlot(object):
     """
     load date and plot 2022-07-22 16_16_26
     """
-    def __init__(self, store_path, \
+    def __init__(self, store_paths, \
                        user_num = 2, attacker_num = 1, RIS_ant_num = 4, \
                        ep_num = 300, step_num = 100): # RIS_ant_num = 16 (not true)
+        
+        self.store_paths = store_paths
 
         self.color_list = ['b', 'c', 'g', 'k', 'm', 'r', 'y']
-        self.store_path = store_path + '//'
+#        self.store_path = store_path + '//'
         self.user_num = user_num
         self.attacker_num = attacker_num
         self.RIS_ant_num = RIS_ant_num
@@ -146,10 +148,11 @@ class LoadAndPlot(object):
         ###############################
         fig = plt.figure('average_sum_secrecy_rate')
         
-        store_paths = ['data/storage/ddpg 4', 'data/storage/td3 3', 'data/storage/ddpg seem 6', 'data/storage/td3 seem 2']
+#        store_paths = ['data/storage/ddpg 4', 'data/storage/td3 3', 'data/storage/ddpg seem 6', 'data/storage/td3 seem 2']
+      #  store_paths = r'data/storage/scratch/td3_ssr'
         legends = ['TDDRL', 'TTD3', 'TDDRL (Energy Penalty)', 'TTD3 (Energy Penalty)']
         all_average_sum_secrecy_rate = []
-        for store_path, legend in zip(store_paths, legends):
+        for store_path, legend in zip(self.store_paths, legends):
             self.store_path = store_path + '//'
             self.all_steps = self.load_all_steps()
             
@@ -172,7 +175,7 @@ class LoadAndPlot(object):
             plt.ylabel("Average Sum Secrecy Rate")
                 
         plt.legend()
-        plt.savefig('data/average_sum_secrecy_rate.png')
+        plt.savefig('data/average_sum_secrecy_rate11.png')
         
         
         # transpose
@@ -190,7 +193,8 @@ class LoadAndPlot(object):
         
 if __name__ == '__main__':
     LoadPlotObject = LoadAndPlot(
-        store_path = '',
+        store_paths = ['data/storage/scratch/ddpg_ssr', 'data/storage/scratch/td3_ssr', 'data/storage/scratch/ddpg_see', 'data/storage/scratch/td3_see'],
+        ep_num = 5,
         )
     LoadPlotObject.plot()
 
