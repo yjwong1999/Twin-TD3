@@ -214,7 +214,7 @@ class LoadAndPlot(object):
             plt.ylabel("Average Secrecy Energy Efficiency")
                 
         plt.legend()
-        plt.savefig('data/average_secrecy_energy_efficiency222.png')
+        plt.savefig('data/average_secrecy_energy_efficiency.png')
 
         
         # dictionary of lists  
