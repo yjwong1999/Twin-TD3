@@ -161,3 +161,15 @@ python3 plot_see.py
 # plot UAV trajectory
 python3 plot_traj.py
 ```
+
+## Cite this repository
+```
+@inbook{
+  tham_wong_iqbal_ramli_zhu_dagiuklas, 
+  place={Glassgow}, 
+  title={Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces}, 
+  booktitle={IEEE Wireless Communications and Networking Conference}, 
+  publisher={IEEE}, 
+  author={Tham, Mau-Luen and Wong, Yi Jie and Iqbal, Amjad and Ramli, Nordin Bin and Zhu, Yongxu and Dagiuklas, Tasos}
+  } 
+```
