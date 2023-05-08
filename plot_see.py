@@ -70,12 +70,14 @@ class LoadAndPlot(object):
     """
     load date and plot 2022-07-22 16_16_26
     """
-    def __init__(self, store_path, \
+    def __init__(self, store_paths, \
                        user_num = 2, attacker_num = 1, RIS_ant_num = 4, \
                        ep_num = 300, step_num = 100): # RIS_ant_num = 16 (not true)
 
+        self.store_paths = store_paths
+        
         self.color_list = ['b', 'c', 'g', 'k', 'm', 'r', 'y']
-        self.store_path = store_path + '//'
+#        self.store_paths = store_paths + '//'
         self.user_num = user_num
         self.attacker_num = attacker_num
         self.RIS_ant_num = RIS_ant_num
@@ -152,16 +154,14 @@ class LoadAndPlot(object):
         init_user_coord_1 = read_init_location(entity_type = 'user', index=1)       
         
         # paths
-        store_paths = ['data/storage/ddpg 4', 'data/storage/td3 3', 'data/storage/ddpg seem 6', 'data/storage/td3 seem 2']
         legends = ['TDDRL', 'TTD3', 'TDDRL (Energy Penalty)', 'TTD3 (Energy Penalty)']
         all_average_see = []
         all_energies = []
         
         # energies
-        ep_num = 300
-        for store_path in store_paths:
+        for store_path in self.store_paths:
             energies = []
-            for i in range(ep_num):
+            for i in range(self.ep_num):
                 # read the mat file
                 filename = f'simulation_result_ep_{i}.mat'
                 filename = os.path.join(store_path, filename)
@@ -182,7 +182,7 @@ class LoadAndPlot(object):
             all_energies.append(energies)
         
         # see
-        for store_path, legend in zip(store_paths, legends):
+        for store_path, legend in zip(self.store_paths, legends):
             average_see = []
             # ssr
             self.store_path = store_path + '//'
@@ -214,7 +214,7 @@ class LoadAndPlot(object):
             plt.ylabel("Average Secrecy Energy Efficiency")
                 
         plt.legend()
-        plt.savefig('data/average_secrecy_energy_efficiency.png')
+        plt.savefig('data/average_secrecy_energy_efficiency222.png')
 
         
         # dictionary of lists  
@@ -225,8 +225,9 @@ class LoadAndPlot(object):
         
 if __name__ == '__main__':
     LoadPlotObject = LoadAndPlot(
-        store_path = '',
-        )
+            store_paths = ['data/storage/scratch/ddpg_ssr', 'data/storage/scratch/td3_ssr', 'data/storage/scratch/ddpg_see', 'data/storage/scratch/td3_see'],
+            ep_num = 5,
+         )
     LoadPlotObject.plot()
 
     
