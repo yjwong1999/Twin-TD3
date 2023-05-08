@@ -175,7 +175,7 @@ class LoadAndPlot(object):
             plt.ylabel("Average Sum Secrecy Rate")
                 
         plt.legend()
-        plt.savefig('data/average_sum_secrecy_rate11.png')
+        plt.savefig('data/average_sum_secrecy_rate.png')
         
         
         # transpose
