@@ -261,7 +261,7 @@ class LoadAndPlot(object):
         plt.ylabel('y(m)')
         plt.tight_layout()
         plt.gca().invert_yaxis()
-        plt.savefig('data/trajectory2123.png')
+        plt.savefig('data/trajectory.png')
         #plt.cla()
 
         
