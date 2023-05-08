@@ -268,7 +268,7 @@ class LoadAndPlot(object):
 if __name__ == '__main__':
     LoadPlotObject = LoadAndPlot(
         store_paths = ['data/storage/scratch/ddpg_ssr', 'data/storage/scratch/td3_ssr', 'data/storage/scratch/ddpg_see', 'data/storage/scratch/td3_see'],
-        ep_num=5,
+        ep_num=300,
         )
     LoadPlotObject.plot()
 
