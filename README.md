@@ -164,14 +164,11 @@ python3 plot_traj.py
 
 ## Cite this repository
 ```
-@inbook{
-  tham_wong_iqbal_ramli_zhu_dagiuklas, 
-  place={Glassgow}, 
-  title={Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces}, 
-  booktitle={IEEE Wireless Communications and Networking Conference}, 
-  publisher={IEEE}, 
-  author={Tham, Mau-Luen and Wong, Yi Jie and Iqbal, Amjad and Ramli, Nordin Bin and Zhu, Yongxu and Dagiuklas, Tasos}
-  } 
+@InProceedings{Tham_2023_WCNC,
+    author={Tham, Mau-Luen and Wong, Yi Jie and Iqbal, Amjad and Ramli, Nordin Bin and Zhu, Yongxu and Dagiuklas, Tasos},
+    title = {Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces}, 
+    booktitle = {IEEE Wireless Communications and Networking Conference (WCNC)}, 
+    month = {March},
+    year = {2023}
+}
 ```
-
-M.-L. Tham, Y. J. Wong, A. Iqbal, N. B. Ramli, Y. Zhu, and T. Dagiuklas, “Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces,” in IEEE Wireless Communications and Networking Conference. 
