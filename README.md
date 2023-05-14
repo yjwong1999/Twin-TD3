@@ -1,7 +1,7 @@
 # Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces
 
 **IEEE Wireless Communications and Networking Conference 2023 (WCNC 2023)** </br>
-Simulation for Conference Proceedings "doi-to-be-filled" </br>
+Simulation for Conference Proceedings "https://doi.org/10.1109/WCNC55385.2023.10118891" </br>
 Refer [this link](https://github.com/yjwong1999/Twin-TD3/blob/main/WCNC2023%20WS-09%20%231570879488.pdf) for the preprint
 
 ## Abstract
