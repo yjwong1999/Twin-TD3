@@ -164,11 +164,10 @@ python3 plot_traj.py
 
 ## Cite this repository
 ```
-@InProceedings{TTD3_2023_WCNC,
-    author={Tham, Mau-Luen and Wong, Yi Jie and Iqbal, Amjad and Ramli, Nordin Bin and Zhu, Yongxu and Dagiuklas, Tasos},
-    title = {Deep Reinforcement Learning for Secrecy Energy-Efficient UAV Communication with Reconfigurable Intelligent Surfaces}, 
-    booktitle = {IEEE Wireless Communications and Networking Conference (WCNC)}, 
-    month = {March},
-    year = {2023}
-}
+@INPROCEEDINGS{10118891,
+  author={Tham, Mau-Luen and Wong, Yi Jie and Iqbal, Amjad and Ramli, Nordin Bin and Zhu, Yongxu and Dagiuklas, Tasos},
+  booktitle={2023 IEEE Wireless Communications and Networking Conference (WCNC)}, 
+  title={Deep Reinforcement Learning for Secrecy Energy- Efficient UAV Communication with Reconfigurable Intelligent Surface}, 
+  year={2023},
+  doi={10.1109/WCNC55385.2023.10118891}}
 ```
