@@ -6,18 +6,14 @@ import argparse
 
 # get argument from user
 parser = argparse.ArgumentParser()
-parser.add_argument('--drl', type = str, required = True, default='td3', help="which drl algo would you like to choose ['ddpg', 'td3']")
-parser.add_argument('--reward', type = str, required = True, default='see', help="which reward would you like to implement ['ssr', 'see']")
-parser.add_argument('--seeds', type = int, required = False, default=None,  nargs='+', help="what seed(s) would you like to use for DRL 1 and 2, please provide in one or two int")
-parser.add_argument('--ep-num', type = int, required = False, default=300, help="how many episodes do you want to train your DRL")
-parser.add_argument('--trained-uav', default=False, action='store_true', help='use trained uav instead of retraining')
+parser.add_argument('--store-path', type = str, required = True, help="pretrained model weight path")
 
 args = parser.parse_args()
 DRL_ALGO = args.drl
 REWARD_DESIGN = args.reward
 SEEDS = args.seeds
 EPISODE_NUM = args.ep_num
-TRAINED_UAV = args.trained_uav
+STORE_PATH = args.store_path
 
 # process the argument
 assert DRL_ALGO in ['ddpg', 'td3'], "drl must be ['ddpg', 'td3']"
