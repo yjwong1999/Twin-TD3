@@ -27,10 +27,8 @@ if SEEDS is not None:
 
 if DRL_ALGO == 'td3':
     from td3 import Agent
-    import td3_2 # seems not used
 elif DRL_ALGO == 'ddpg':
     from ddpg import Agent
-    import ddpg_2 # seems not used
 import ddpg
 
 from env import MiniSystem
