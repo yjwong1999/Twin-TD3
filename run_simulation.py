@@ -47,6 +47,7 @@ import numpy as np
 import math
 import time
 import torch
+import shutil
 
 # 1 init system model
 episode_num = 1
@@ -211,77 +212,81 @@ system.data_manager.save_meta_data(meta_dic)
 
 print("***********************traning information******************************")
 
+try:
+    while episode_cnt < episode_num:
+        # 1 reset the whole system
+        system.reset()
+        step_cnt = 0
+        score_per_ep = 0
 
-while episode_cnt < episode_num:
-    # 1 reset the whole system
-    system.reset()
-    step_cnt = 0
-    score_per_ep = 0
-
-    # 2 get the initial state
-    if if_robust:
-        tmp = system.observe()
-        #z = np.random.multivariate_normal(np.zeros(2), 0.5*np.eye(2), size=len(tmp)).view(np.complex128)
-        z = np.random.normal(size=len(tmp))
-        observersion_1 = list(
-            np.array(tmp) + 0.6 *1e-7* z
-            )
-    else:
-        observersion_1 = system.observe()
-    observersion_2 = list(system.UAV.coordinate)
-
-    while step_cnt < step_num:
-        # 1 count num of step in one episode
-        step_cnt += 1
-        # judge if pause the whole system
-        if not system.render_obj.pause:
-            # 2 choose action acoording to current state
-            action_1 = agent_1.choose_action(observersion_1, greedy=agent_1_param_dic["action_noise_factor"] * math.pow((1-episode_cnt / episode_num), 2))
-            action_2 = agent_2.choose_action(observersion_2, greedy=agent_2_param_dic["action_noise_factor"]* math.pow((1-episode_cnt / episode_num), 2))
-            if if_BS:
-                action_2[0]=0
-                action_2[1]=0
-
-            if if_Theta_fixed:
-                action_1[0+2 * system.UAV.ant_num * system.user_num:] = len(action_1[0+2 * system.UAV.ant_num * system.user_num:])*[0]
-                
-            if if_G_fixed:
-                action_1[0:0+2 * system.UAV.ant_num * system.user_num]=np.array([-0.0313, -0.9838, 0.3210, 1.0, -0.9786, -0.1448, 0.3518, 0.5813, -1.0, -0.2803, -0.4616, -0.6352, -0.1449, 0.7040, 0.4090, -0.8521]) * math.pow(episode_cnt / episode_num, 2) * 0.7
-                #action_1[0:0+2 * system.UAV.ant_num * system.user_num]=len(action_1[0:0+2 * system.UAV.ant_num * system.user_num])*[0.5]
-            # 3 get newstate, reward
-            if system.if_with_RIS:
-                new_state_1, reward, done, info = system.step(
-                    action_0=action_2[0],
-                    action_1=action_2[1],
-                    G=action_1[0:0+2 * system.UAV.ant_num * system.user_num],
-                    Phi=action_1[0+2 * system.UAV.ant_num * system.user_num:],
-                    set_pos_x=action_2[0],
-                    set_pos_y=action_2[1]
+        # 2 get the initial state
+        if if_robust:
+            tmp = system.observe()
+            #z = np.random.multivariate_normal(np.zeros(2), 0.5*np.eye(2), size=len(tmp)).view(np.complex128)
+            z = np.random.normal(size=len(tmp))
+            observersion_1 = list(
+                np.array(tmp) + 0.6 *1e-7* z
                 )
-                new_state_2 = list(system.UAV.coordinate)
-            else:
-                new_state_1, reward, done, info = system.step(
-                    action_0=action_2[0],
-                    action_1=action_2[1],
-                    G=action_1[0:0+2 * system.UAV.ant_num * system.user_num],
-                    set_pos_x=action_2[0],
-                    set_pos_y=action_2[1]
-                )
-                new_state_2 = list(system.UAV.coordinate)
-
-            score_per_ep += reward
-            
-            # render
-            system.render_obj.render(0.001) # no rendering for faster
-            observersion_1 = new_state_1
-            observersion_2 = new_state_2
-            if done == True:
-                break
-            
         else:
-            system.render_obj.render_pause()  # no rendering for faster
-            time.sleep(0.001) #time.sleep(1)
+            observersion_1 = system.observe()
+        observersion_2 = list(system.UAV.coordinate)
 
-    system.reset()
-    print("ep_num: "+str(episode_cnt)+"   ep_score:  "+str(score_per_ep))
-    episode_cnt +=1
+        while step_cnt < step_num:
+            # 1 count num of step in one episode
+            step_cnt += 1
+            # judge if pause the whole system
+            if not system.render_obj.pause:
+                # 2 choose action acoording to current state
+                action_1 = agent_1.choose_action(observersion_1, greedy=agent_1_param_dic["action_noise_factor"] * math.pow((1-episode_cnt / episode_num), 2))
+                action_2 = agent_2.choose_action(observersion_2, greedy=agent_2_param_dic["action_noise_factor"]* math.pow((1-episode_cnt / episode_num), 2))
+                if if_BS:
+                    action_2[0]=0
+                    action_2[1]=0
+
+                if if_Theta_fixed:
+                    action_1[0+2 * system.UAV.ant_num * system.user_num:] = len(action_1[0+2 * system.UAV.ant_num * system.user_num:])*[0]
+
+                if if_G_fixed:
+                    action_1[0:0+2 * system.UAV.ant_num * system.user_num]=np.array([-0.0313, -0.9838, 0.3210, 1.0, -0.9786, -0.1448, 0.3518, 0.5813, -1.0, -0.2803, -0.4616, -0.6352, -0.1449, 0.7040, 0.4090, -0.8521]) * math.pow(episode_cnt / episode_num, 2) * 0.7
+                    #action_1[0:0+2 * system.UAV.ant_num * system.user_num]=len(action_1[0:0+2 * system.UAV.ant_num * system.user_num])*[0.5]
+                # 3 get newstate, reward
+                if system.if_with_RIS:
+                    new_state_1, reward, done, info = system.step(
+                        action_0=action_2[0],
+                        action_1=action_2[1],
+                        G=action_1[0:0+2 * system.UAV.ant_num * system.user_num],
+                        Phi=action_1[0+2 * system.UAV.ant_num * system.user_num:],
+                        set_pos_x=action_2[0],
+                        set_pos_y=action_2[1]
+                    )
+                    new_state_2 = list(system.UAV.coordinate)
+                else:
+                    new_state_1, reward, done, info = system.step(
+                        action_0=action_2[0],
+                        action_1=action_2[1],
+                        G=action_1[0:0+2 * system.UAV.ant_num * system.user_num],
+                        set_pos_x=action_2[0],
+                        set_pos_y=action_2[1]
+                    )
+                    new_state_2 = list(system.UAV.coordinate)
+
+                score_per_ep += reward
+
+                # render
+                system.render_obj.render(0.001) # no rendering for faster
+                observersion_1 = new_state_1
+                observersion_2 = new_state_2
+                if done == True:
+                    break
+
+            else:
+                system.render_obj.render_pause()  # no rendering for faster
+                time.sleep(0.001) #time.sleep(1)
+
+        system.reset()
+        print("ep_num: "+str(episode_cnt)+"   ep_score:  "+str(score_per_ep))
+        episode_cnt +=1
+except KeyboardInterrupt:
+    raise KeyboardInterrupt
+finally:
+    shutil.rmtree('data/storage/data')
