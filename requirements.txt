@@ -3,7 +3,7 @@
 
 matplotlib==3.4.3
 pyparsing==3.0.9
-sklearn==0.0.post1
+# sklearn==0.0.post1
 joblib==1.2.0
 pandas==1.4.3
 cycler==0.11.0
