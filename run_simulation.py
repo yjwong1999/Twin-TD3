@@ -14,14 +14,21 @@ STORE_PATH = args.store_path
 # validate the weight path
 if not os.path.isdir(STORE_PATH):
     raise NotImplementedError("The provided weight path does not exist!")
-# get DRL_ALGO
-if 'ddpg' in STORE_PATH:
-    DRL_ALGO = 'ddpg'
-else:
-    DRL_ALGO = 'td3'
 
-REWARD_DESIGN = args.reward
-SEEDS = args.seeds
+# get DRL_ALGO
+if 'td3' in STORE_PATH:
+    DRL_ALGO = 'td3'
+else:
+    DRL_ALGO = 'ddpg'
+
+# reward design
+if 'see' in STORE_PATH:
+    REWARD_DESIGN = 'see'
+else:
+    REWARD_DESIGN = 'ssr'
+
+# seeds and episode number
+SEEDS = None
 EPISODE_NUM = args.ep_num
 
 
