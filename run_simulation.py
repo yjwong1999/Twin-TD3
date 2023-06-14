@@ -6,10 +6,10 @@ import argparse
 
 # get argument from user
 parser = argparse.ArgumentParser()
-parser.add_argument('--store-path', type = str, required = True, help="pretrained model weight path")
+parser.add_argument('--path', type = str, required = True, help="pretrained model weight path")
 
 args = parser.parse_args()
-STORE_PATH = args.store_path
+STORE_PATH = args.path
 
 # validate the weight path
 if not os.path.isdir(STORE_PATH):
