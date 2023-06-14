@@ -273,6 +273,7 @@ while episode_cnt < episode_num:
                 new_state_2 = list(system.UAV.coordinate)
 
             score_per_ep += reward
+            '''
             # 4 store state pair into mem pool
             agent_1.remember(observersion_1, action_1, reward, new_state_1, int(done))
             agent_2.remember(observersion_2, action_2, reward, new_state_2, int(done))
@@ -280,17 +281,20 @@ while episode_cnt < episode_num:
             agent_1.learn()
             if not TRAINED_UAV:
                 agent_2.learn()
+            '''
 
-            #system.render_obj.render(0.001) # no rendering for faster
+            system.render_obj.render(0.001) # no rendering for faster
             observersion_1 = new_state_1
             observersion_2 = new_state_2
             if done == True:
                 break
             
         else:
-            #system.render_obj.render_pause()  # no rendering for faster
+            system.render_obj.render_pause()  # no rendering for faster
             time.sleep(0.001) #time.sleep(1)
+    '''
     system.data_manager.save_file(episode_cnt=episode_cnt)
+    '''
     system.reset()
     print("ep_num: "+str(episode_cnt)+"   ep_score:  "+str(score_per_ep))
     episode_cnt +=1
