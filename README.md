@@ -66,8 +66,8 @@ python3 main_train.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 
 `run_simulation.py` is the python file to run the simulation using your trained models
 ```shell
 # plot everything for each episode
-python3 run_simulation.py --path data/storage/scratch/<DIR> --ep-num 300       # if you train the algorithm without the pretrained uav
-python3 run_simulation.py --path data/storage/trained_uav/<DIR> --ep-num 300   # if you train the algorithm with the pretrained uav
+python3 run_simulation.py --path data/storage/scratch/<DIR>       # if you train the algorithm without the pretrained uav
+python3 run_simulation.py --path data/storage/trained_uav/<DIR>   # if you train the algorithm with the pretrained uav
 ```
 
 
