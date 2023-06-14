@@ -63,7 +63,14 @@ python3 main_train.py --drl td3 --reward see --seeds 0       # weights of both D
 python3 main_train.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
 ```
 
-`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments
+`run_simulation.py` is the python file to run the simulation using your trained models
+```shell
+# plot everything for each episode
+python3 run_simulation.py --path <path>
+```
+
+
+`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments. The plotted figures are saved at <DIR>/plot
 ```shell
 # plot everything for each episode
 python3 load_and_plot.py --path data/storage/scratch/<DIR> --ep-num 300       # if you train the algorithm without the pretrained uav
