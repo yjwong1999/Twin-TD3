@@ -219,15 +219,6 @@ while episode_cnt < episode_num:
         # judge if pause the whole system
         if not system.render_obj.pause:
             # 2 choose action acoording to current state
-            """
-            epsilon = 0.5
-            epsilon = epsilon + epsilon * (episode_cnt*100 + step_cnt)/(step_num*episode_num)
-            ran = np.random.uniform()
-            if ran < epsilon:
-                action = agent.choose_action(observersion, greedy=0)
-            else:
-                action = list(np.random.uniform(-1,1,n_actions))
-            """
             action_1 = agent_1.choose_action(observersion_1, greedy=agent_1_param_dic["action_noise_factor"] * math.pow((1-episode_cnt / episode_num), 2))
             action_2 = agent_2.choose_action(observersion_2, greedy=agent_2_param_dic["action_noise_factor"]* math.pow((1-episode_cnt / episode_num), 2))
             if if_BS:
