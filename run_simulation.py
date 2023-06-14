@@ -7,7 +7,7 @@ import argparse
 # get argument from user
 parser = argparse.ArgumentParser()
 parser.add_argument('--store-path', type = str, required = True, help="pretrained model weight path")
-parser.add_argument('--ep-num', type = int, required = False, default=100, help='total number of episodes')
+parser.add_argument('--ep-num', type = int, required = True, default=300, help='total number of episodes')
 
 args = parser.parse_args()
 STORE_PATH = args.store_path
