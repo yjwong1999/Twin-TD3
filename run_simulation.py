@@ -9,11 +9,23 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--store-path', type = str, required = True, help="pretrained model weight path")
 
 args = parser.parse_args()
-DRL_ALGO = args.drl
+STORE_PATH = args.store_path
+
+# validate the weight path
+if not os.path.isdir(STORE_PATH):
+    raise NotImplementedError("The provided weight path does not exist!")
+# get DRL_ALGO
+if 'ddpg' in STORE_PATH:
+    DRL_ALGO = 'ddpg'
+else:
+    DRL_ALGO = 'td3'
+
 REWARD_DESIGN = args.reward
 SEEDS = args.seeds
 EPISODE_NUM = args.ep_num
-STORE_PATH = args.store_path
+
+
+project_name = f'trained_uav/{DRL_ALGO}_{REWARD_DESIGN}' if TRAINED_UAV else f'scratch/{DRL_ALGO}_{REWARD_DESIGN}'
 
 # process the argument
 assert DRL_ALGO in ['ddpg', 'td3'], "drl must be ['ddpg', 'td3']"
