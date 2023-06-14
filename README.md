@@ -36,31 +36,31 @@ User can train two types of algorithm for training:
 
 Run the following  in the `bash` or `powershell`
 
-`main_test.py` is the main python file to train the DRL algorithms
+`main_train.py` is the main python file to train the DRL algorithms
 ```shell
 # To use Twin DDPG with SSR as optimization goal
-python3 main_test.py --drl ddpg --reward ssr
+python3 main_train.py --drl ddpg --reward ssr
 
 # To use Twin TD3 with SSR as optimization goal
-python3 main_test.py --drl td3 --reward ssr
+python3 main_train.py --drl td3 --reward ssr
 
 # To use Twin DDPG with SEE as optimization goal
-python3 main_test.py --drl ddpg --reward see
+python3 main_train.py --drl ddpg --reward see
 
 # To use Twin TD3 with SEE as optimization goal
-python3 main_test.py --drl td3 --reward see
+python3 main_train.py --drl td3 --reward see
 
 
 
 # To use pretrained DRL for UAV trajectory (recommended for stable convergence)
-python3 main_test.py --drl td3 --reward see --trained-uav
+python3 main_train.py --drl td3 --reward see --trained-uav
 
 # To set number of episodes (default is 300)
-python3 main_test.py --drl td3 --reward see --ep-num 300
+python3 main_train.py --drl td3 --reward see --ep-num 300
 
 # To set seeds for DRL weight initialization (not recommended)
-python3 main_test.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
-python3 main_test.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
+python3 main_train.py --drl td3 --reward see --seeds 0       # weights of both DRL are initialized with seed 0
+python3 main_train.py --drl td3 --reward see --seeds 0 1     # weights of DRL 1 and DRL2 are initialized with seed 0 and 1, respectively
 ```
 
 `load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments
