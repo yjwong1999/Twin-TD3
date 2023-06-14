@@ -7,9 +7,11 @@ import argparse
 # get argument from user
 parser = argparse.ArgumentParser()
 parser.add_argument('--store-path', type = str, required = True, help="pretrained model weight path")
+parser.add_argument('--ep-num', type = int, required = False, default=100, help='total number of episodes')
 
 args = parser.parse_args()
 STORE_PATH = args.store_path
+EP_NUM = args.ep_num
 
 # validate the weight path
 if not os.path.isdir(STORE_PATH):
@@ -29,10 +31,6 @@ else:
 
 # seeds and episode number
 SEEDS = None
-EPISODE_NUM = args.ep_num
-
-
-project_name = f'trained_uav/{DRL_ALGO}_{REWARD_DESIGN}' if TRAINED_UAV else f'scratch/{DRL_ALGO}_{REWARD_DESIGN}'
 
 # process the argument
 assert DRL_ALGO in ['ddpg', 'td3'], "drl must be ['ddpg', 'td3']"
@@ -57,7 +55,7 @@ episode_num = EPISODE_NUM # recommend to be 300
 episode_cnt = 0
 step_num = 100
 
-project_name = f'trained_uav/{DRL_ALGO}_{REWARD_DESIGN}' if TRAINED_UAV else f'scratch/{DRL_ALGO}_{REWARD_DESIGN}'
+project_name = STORE_PATH
 
 system = MiniSystem(
     user_num=2,
@@ -150,19 +148,26 @@ agent_2 = Agent(
     ) 
 
 
-if TRAINED_UAV:
-    benchmark = f'data/storage/benchmark/{DRL_ALGO}_{REWARD_DESIGN}_benchmark'
-    if DRL_ALGO == 'td3':
-        agent_2.load_models(
-             load_file_actor = benchmark + '/Actor_UAV_TD3',
-             load_file_critic_1 = benchmark + '/Critic_1_UAV_TD3',
-             load_file_critic_2 = benchmark + '/Critic_2_UAV_TD3'
-             )
-    elif DRL_ALGO == 'ddpg':
-        agent_2.load_models(
-             load_file_actor = benchmark + '/Actor_UAV_ddpg',
-             load_file_critic = benchmark + '/Critic_UAV_ddpg'
-             )
+if DRL_ALGO == 'td3':
+    agent_1.load_models(
+         load_file_actor = STORE_PATH + '/Actor_G_and_Phi_TD3',
+         load_file_critic_1 = STORE_PATH + '/Critic_1_G_and_Phi_TD3',
+         load_file_critic_2 = STORE_PATH + '/Critic_2_G_and_Phi_TD3'
+         )
+    agent_2.load_models(
+         load_file_actor = STORE_PATH + '/Actor_UAV_TD3',
+         load_file_critic_1 = STORE_PATH + '/Critic_1_UAV_TD3',
+         load_file_critic_2 = STORE_PATH + '/Critic_2_UAV_TD3'
+         )
+elif DRL_ALGO == 'ddpg':
+    agent_1.load_models(
+         load_file_actor = STORE_PATH + '/Actor_G_and_Phi_ddpg',
+         load_file_critic = STORE_PATH + '/Critic_G_and_Phi_ddpg'
+         )
+    agent_2.load_models(
+         load_file_actor = STORE_PATH + '/Actor_UAV_ddpg',
+         load_file_critic = STORE_PATH + '/Critic_UAV_ddpg'
+         )
 
 meta_dic = {}
 print("***********************system information******************************")
