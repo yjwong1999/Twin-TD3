@@ -10,7 +10,6 @@ parser.add_argument('--store-path', type = str, required = True, help="pretraine
 
 args = parser.parse_args()
 STORE_PATH = args.store_path
-EP_NUM = 1
 
 # validate the weight path
 if not os.path.isdir(STORE_PATH):
@@ -50,7 +49,7 @@ import time
 import torch
 
 # 1 init system model
-episode_num = EPISODE_NUM # recommend to be 300
+episode_num = 1
 episode_cnt = 0
 step_num = 100
 
