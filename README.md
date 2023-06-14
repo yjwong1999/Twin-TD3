@@ -70,7 +70,7 @@ python3 run_simulation.py --path <path>
 ```
 
 
-`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments. The plotted figures are saved at /<DIR>/plot
+`load_and_plot.py` is the python file to plot the (i) Rewards, (ii) Sum Secrecy Rate (SSR), (iii) Secrecy Energy Efficient (SEE), (iv) UAV Trajectory, (v) RIS configs for each episode in one experiments. The plotted figures are saved at `data/storage/scratch/<DIR>/plot` or `data/storage/trained_uav/<DIR>plot`
 ```shell
 # plot everything for each episode
 python3 load_and_plot.py --path data/storage/scratch/<DIR> --ep-num 300       # if you train the algorithm without the pretrained uav
