@@ -231,8 +231,7 @@ while episode_cnt < episode_num:
     else:
         observersion_1 = system.observe()
     observersion_2 = list(system.UAV.coordinate)
-    if episode_cnt == 80:
-        print("break point")
+
     while step_cnt < step_num:
         # 1 count num of step in one episode
         step_cnt += 1
@@ -273,16 +272,8 @@ while episode_cnt < episode_num:
                 new_state_2 = list(system.UAV.coordinate)
 
             score_per_ep += reward
-            '''
-            # 4 store state pair into mem pool
-            agent_1.remember(observersion_1, action_1, reward, new_state_1, int(done))
-            agent_2.remember(observersion_2, action_2, reward, new_state_2, int(done))
-            # 5 update DDPG net
-            agent_1.learn()
-            if not TRAINED_UAV:
-                agent_2.learn()
-            '''
-
+            
+            # render
             system.render_obj.render(0.001) # no rendering for faster
             observersion_1 = new_state_1
             observersion_2 = new_state_2
@@ -292,16 +283,7 @@ while episode_cnt < episode_num:
         else:
             system.render_obj.render_pause()  # no rendering for faster
             time.sleep(0.001) #time.sleep(1)
-    '''
-    system.data_manager.save_file(episode_cnt=episode_cnt)
-    '''
+
     system.reset()
     print("ep_num: "+str(episode_cnt)+"   ep_score:  "+str(score_per_ep))
     episode_cnt +=1
-    if episode_cnt % 10 == 0:
-        agent_1.save_models()
-        agent_2.save_models()
-
-# save the last model
-agent_1.save_models()
-agent_2.save_models()
