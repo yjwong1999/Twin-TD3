@@ -81,7 +81,7 @@ bash batch_eval.sh
 
 ## Results
 
-We run the ```main_test.py``` for 5 times for each settings below, and averaged out the performance
+We run the ```main_train.py``` for 5 times for each settings below, and averaged out the performance
 
 SSR and SEE              (the higher the better)
 Total Energy Consumption (the lower the better)
