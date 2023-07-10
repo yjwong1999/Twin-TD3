@@ -60,7 +60,10 @@ class MiniSystem(object):
     define mini RIS communication system with one UAV
         and one RIS and one user, one attacker
     """
-    def __init__(self, UAV_num = 1, RIS_num = 1, user_num = 1, attacker_num = 1, fre = 28e9, RIS_ant_num = 16, UAV_ant_num=8, if_dir_link = 1, if_with_RIS = True, if_move_users = True, if_movements = True, reverse_x_y = (True, True), if_UAV_pos_state = True, reward_design = 'ssr', project_name = None, step_num=100):
+    def __init__(self, UAV_num = 1, RIS_num = 1, user_num = 1, attacker_num = 1, fre = 28e9, \
+                 RIS_ant_num = 16, UAV_ant_num=8, if_dir_link = 1, if_with_RIS = True, \
+                 if_move_users = True, if_movements = True, reverse_x_y = (True, True), \
+                 if_UAV_pos_state = True, reward_design = 'ssr', project_name = None, step_num=100):
         self.if_dir_link = if_dir_link
         self.if_with_RIS = if_with_RIS
         self.if_move_users = if_move_users
